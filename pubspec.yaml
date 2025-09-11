@@ -2,7 +2,7 @@ name: edwall_admin
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.0
+  sdk: ^3.9.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,9 +31,32 @@ dependencies:
   flutter:
     sdk: flutter
 
+  assorted_layout_widgets: ^11.0.0
+  auto_route: ^10.1.2
+  bluetooth_classic_multiplatform:
+    path: ../bluetooth_classic_multiplatform
+  chopper: ^8.0.4
+  collection: ^1.19.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  flutter_hooks: ^0.21.3+1
+  flutter_riverpod: ^2.6.1
+  fluttertoast: ^8.2.11
+  freezed_annotation: ^3.1.0
+  http: ^1.2.1
+  http_interceptor: ^2.0.0-beta.8
+  hooks_riverpod: ^2.5.1
+  intl: ^0.20.2
+  json_annotation: ^4.9.0
+  logger: ^2.2.0
+  permission_handler: ^12.0.0+1
+  queue: ^3.1.0+2
+  riverpod_annotation: ^2.3.5
+  shared_preferences: ^2.2.3
+  theme_tailor_annotation: ^3.0.2
+  toastification: ^3.0.2
+  two_dimensional_scrollables: ^0.3.6
 
 dev_dependencies:
   flutter_test:
@@ -44,21 +67,34 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  auto_route_generator: ^10.2.3
+  build_runner: ^2.4.15
+  chopper_generator: ^8.0.4
+  custom_lint: ^0.7.0
+  flutter_lints: ^6.0.0
+  freezed: ^3.1.0
+  json_serializable: ^6.9.0
+  riverpod_generator: ^2.4.0
+  riverpod_lint: ^2.6.3
+  swagger_dart_code_generator: ^3.0.3
+  theme_tailor: ^3.0.1
+
+dependency_overrides:
+  analyzer_plugin: ^0.13.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/holds/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -73,7 +109,21 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Alumni Sans
+      fonts:
+        - asset: assets/fonts/AlumniSans/AlumniSans-Black.ttf
+        - asset: assets/fonts/AlumniSans/AlumniSans-Bold.ttf
+        - asset: assets/fonts/AlumniSans/AlumniSans-ExtraBold.ttf
+        - asset: assets/fonts/AlumniSans/AlumniSans-ExtraLight.ttf
+        - asset: assets/fonts/AlumniSans/AlumniSans-Light.ttf
+        - asset: assets/fonts/AlumniSans/AlumniSans-Medium.ttf
+        - asset: assets/fonts/AlumniSans/AlumniSans-Regular.ttf
+        - asset: assets/fonts/AlumniSans/AlumniSans-SemiBold.ttf
+        - asset: assets/fonts/AlumniSans/AlumniSans-Thin.ttf
+    - family: Oi
+      fonts:
+        - asset: assets/fonts/Oi-Regular.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
