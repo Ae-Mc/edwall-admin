@@ -9,17 +9,17 @@ import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:flutter/material.dart' hide Route;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 @RoutePage()
-class ProgrammeModifyPage extends HookWidget {
+class ProgrammeModifyPage extends HookConsumerWidget {
   final ProgrammeRead? initial;
 
   const ProgrammeModifyPage({super.key, this.initial});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final name = useTextEditingController(text: initial?.name ?? '');
     final description = useTextEditingController(
       text: initial?.description ?? '',
@@ -256,9 +256,23 @@ class ProgrammeModifyPage extends HookWidget {
                               width: 128,
                               child:
                                   (insecure.value
-                                  ? ElevatedButton.new
+                                  ? FutureButton.new
                                   : OutlinedButton.new)(
-                                    onPressed: insecure.value ? () {} : null,
+                                    onPressed: insecure.value
+                                        ? () async {
+                                            await ref
+                                                .read(
+                                                  programmesProvider().notifier,
+                                                )
+                                                .delete(initial!.id);
+                                            if (context.mounted) {
+                                              context.router
+                                                  .popUntilRouteWithName(
+                                                    ProgrammesRoute.name,
+                                                  );
+                                            }
+                                          }
+                                        : null,
                                     child: Text('УДАЛИТЬ'),
                                   ),
                             ),
@@ -279,53 +293,46 @@ class ProgrammeModifyPage extends HookWidget {
                     ),
                   ],
                   Expanded(child: Box()),
-                  Consumer(
-                    builder:
-                        (BuildContext context, WidgetRef ref, Widget? child) {
-                          return FutureButton(
-                            onPressed: () async {
-                              final programmes = ref.read(
-                                programmesProvider().notifier,
-                              );
-                              if (initial != null) {
-                                await programmes.modify(
-                                  initial!.id,
-                                  ProgrammeUpdate(
-                                    description: description.text,
-                                    level: int.parse(level.text),
-                                    name: name.text,
-                                  ),
-                                  routes.value.map((e) => e.id).toList(),
-                                );
-                              } else {
-                                await programmes.add(
-                                  ProgrammeBase(
-                                    description: description.text,
-                                    level: int.parse(level.text),
-                                    name: name.text,
-                                  ),
-                                  routesIds: routes.value
-                                      .map((e) => e.id)
-                                      .toList(),
-                                );
-                              }
-                              if (context.mounted) {
-                                context.router.pop();
-                              }
-                            },
-                            buttonStyle: ButtonStyle(
-                              textStyle: WidgetStatePropertyAll(
-                                Theme.of(
-                                  context,
-                                ).textTheme.headlineMedium?.apply(color: null),
-                              ),
-                              padding: WidgetStatePropertyAll(
-                                Pad(horizontal: 24, vertical: 16),
-                              ),
-                            ),
-                            child: Text('СОХРАНИТЬ ИЗМЕНЕНИЯ'),
-                          );
-                        },
+                  FutureButton(
+                    onPressed: () async {
+                      final programmes = ref.read(
+                        programmesProvider().notifier,
+                      );
+                      if (initial != null) {
+                        await programmes.modify(
+                          initial!.id,
+                          ProgrammeUpdate(
+                            description: description.text,
+                            level: int.parse(level.text),
+                            name: name.text,
+                          ),
+                          routes.value.map((e) => e.id).toList(),
+                        );
+                      } else {
+                        await programmes.add(
+                          ProgrammeBase(
+                            description: description.text,
+                            level: int.parse(level.text),
+                            name: name.text,
+                          ),
+                          routesIds: routes.value.map((e) => e.id).toList(),
+                        );
+                      }
+                      if (context.mounted) {
+                        context.router.pop();
+                      }
+                    },
+                    buttonStyle: ButtonStyle(
+                      textStyle: WidgetStatePropertyAll(
+                        Theme.of(
+                          context,
+                        ).textTheme.headlineMedium?.apply(color: null),
+                      ),
+                      padding: WidgetStatePropertyAll(
+                        Pad(horizontal: 24, vertical: 16),
+                      ),
+                    ),
+                    child: Text('СОХРАНИТЬ ИЗМЕНЕНИЯ'),
                   ),
                 ],
               ),

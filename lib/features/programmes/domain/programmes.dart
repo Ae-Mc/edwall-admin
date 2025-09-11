@@ -7,7 +7,6 @@ import 'package:edwall_admin/core/util/response_extension.dart';
 import 'package:edwall_admin/features/programme/domain/programme.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'programmes.g.dart';
 
@@ -49,7 +48,6 @@ class Programmes extends _$Programmes {
     List<int>? newRoutesIds,
   ) async {
     final apiClient = await ref.watch(apiClientProvider.future);
-    Logger().d('Modifying programme $id: $programme ($newRoutesIds)');
     final response = await clientExceptionHandler(
       (newRoutesIds == null)
           ? apiClient.apiV1ProgrammesProgrammeIdPatch(
@@ -71,7 +69,7 @@ class Programmes extends _$Programmes {
 
   Future<void> add(ProgrammeBase programme, {List<int>? routesIds}) async {
     final apiClient = await ref.watch(apiClientProvider.future);
-    await clientExceptionHandler(
+    (await clientExceptionHandler(
       routesIds == null
           ? apiClient.apiV1ProgrammesPost(body: programme)
           : apiClient.apiV1ProgrammesFullPost(
@@ -80,7 +78,7 @@ class Programmes extends _$Programmes {
                 routesIds: routesIds,
               ),
             ),
-    );
+    )).raiseForStatusCode();
     ref.invalidate(programmesParentProvider);
   }
 }
