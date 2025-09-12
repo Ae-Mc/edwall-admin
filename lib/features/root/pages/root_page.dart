@@ -85,6 +85,8 @@ class RootPage extends ConsumerWidget {
             context,
           ).colorScheme.primary.withAlpha(128),
           currentIndex: router.activeIndex,
+          showUnselectedLabels: true,
+          useLegacyColorScheme: false,
           onTap: (value) => router.setActiveIndex(value),
           items: const [
             BottomNavigationBarItem(
@@ -92,15 +94,15 @@ class RootPage extends ConsumerWidget {
               label: "Программы",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt_rounded),
+              icon: Icon(Icons.view_list_rounded),
               label: "Задания",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.construction_rounded),
+              icon: Icon(Icons.book_rounded),
               label: "Уроки",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.construction_rounded),
+              icon: Icon(Icons.school_rounded),
               label: "Учебные планы",
             ),
             BottomNavigationBarItem(
