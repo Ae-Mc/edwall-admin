@@ -41,7 +41,7 @@ class FlashboardConnection extends _$FlashboardConnection {
     return localConnection;
   }
 
-  void _isolateRespondHandler(message) {
+  void _isolateRespondHandler(dynamic message) {
     switch (message) {
       case Uint8List bytes:
         _connection?.output.add(bytes);

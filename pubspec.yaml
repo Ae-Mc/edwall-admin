@@ -34,7 +34,9 @@ dependencies:
   assorted_layout_widgets: ^11.0.0
   auto_route: ^10.1.2
   bluetooth_classic_multiplatform:
-    path: ../bluetooth_classic_multiplatform
+    git:
+      url: https://github.com/ae-mc/bluetooth_classic_multiplatform.git
+      ref: edwall
   chopper: ^8.0.4
   collection: ^1.19.1
   # The following adds the Cupertino Icons font to your application.

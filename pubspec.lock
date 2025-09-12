@@ -76,9 +76,11 @@ packages:
   bluetooth_classic_multiplatform:
     dependency: "direct main"
     description:
-      path: "../bluetooth_classic_multiplatform"
-      relative: true
-    source: path
+      path: "."
+      ref: edwall
+      resolved-ref: c7e3c8b0c757463878976b515610b0f6d8c6baf7
+      url: "https://github.com/ae-mc/bluetooth_classic_multiplatform.git"
+    source: git
     version: "0.1.0"
   boolean_selector:
     dependency: transitive

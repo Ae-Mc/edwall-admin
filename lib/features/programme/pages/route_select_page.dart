@@ -64,10 +64,14 @@ class RouteSelectPage extends HookConsumerWidget {
               builder: (context, ref, child) {
                 return routes.when(
                   data: (data) {
-                    data = data
-                        .where((element) => !excludeIds.contains(element.id))
-                        .toList();
-                    data.sort((a, b) => a.name.compareTo(b.name));
+                    data =
+                        data
+                            .where(
+                              (element) => !excludeIds.contains(element.id),
+                            )
+                            .toList()
+                          ..sort((a, b) => a.name.compareTo(b.name));
+
                     return RefreshIndicator.adaptive(
                       onRefresh: () => onRefresh(ref, provider),
                       child: ListView.separated(

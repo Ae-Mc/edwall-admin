@@ -5,10 +5,13 @@ import 'package:edwall_admin/core/widgets/route_card.dart';
 import 'package:edwall_admin/core/widgets/route_view.dart';
 import 'package:edwall_admin/features/routes/domain/routes.dart';
 import 'package:edwall_admin/features/routes/widgets/bottom_sheet.dart';
+import 'package:edwall_admin/features/routes/widgets/confirmation_dialog.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:flutter/material.dart' hide Route, BottomSheet;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:toastification/toastification.dart';
 
 @RoutePage()
 class RoutesPage extends HookConsumerWidget {
@@ -154,7 +157,48 @@ class RoutesPage extends HookConsumerWidget {
                 width: 2,
                 height: double.infinity,
               ),
-              Expanded(flex: 3, child: RouteView(selectedRoute)),
+              Expanded(
+                flex: 3,
+                child: RouteView(
+                  selectedRoute,
+                  onDeletePressed: () async {
+                    final confirmed = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => ConfirmationDialog(
+                        title: "Удаление задания",
+                        content:
+                            "Вы уверены, что хотите удалить это задание? Это действие необратимо.",
+                      ),
+                    );
+
+                    if (confirmed != true) {
+                      return;
+                    }
+
+                    try {
+                      await ref
+                          .read(routesProvider().notifier)
+                          .delete(selectedRoute.id);
+                      selectedRouteState.value = null;
+                      toastification.show(
+                        autoCloseDuration: Duration(seconds: 3),
+                        style: ToastificationStyle.minimal,
+                        type: ToastificationType.success,
+                        title: Text("Задание успешно удалено"),
+                      );
+                    } catch (e) {
+                      if (context.mounted) {
+                        Logger().e("Error deleting route", error: e);
+                        toastification.show(
+                          type: ToastificationType.error,
+                          title: Text("Ошибка при удалении задания"),
+                          description: Text(e.toString()),
+                        );
+                      }
+                    }
+                  },
+                ),
+              ),
             ],
           ],
         ),

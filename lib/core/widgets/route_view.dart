@@ -1,9 +1,11 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/core/providers/route.dart';
 import 'package:edwall_admin/core/providers/settings.dart';
 import 'package:edwall_admin/core/providers/wall.dart';
 import 'package:edwall_admin/core/providers/wall_state.dart';
 import 'package:edwall_admin/core/widgets/error_text.dart';
+import 'package:edwall_admin/core/widgets/future_button.dart';
 import 'package:edwall_admin/core/widgets/route_widget.dart';
 import 'package:edwall_admin/features/routes/widgets/route_on_wall_preview.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
@@ -13,12 +15,42 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RouteView extends ConsumerWidget {
   final Route route;
-  const RouteView(this.route, {super.key});
+
+  final Future<void> Function()? onDeletePressed;
+
+  const RouteView(this.route, {this.onDeletePressed, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final routeRead = ref.watch(routeProvider(route.id));
     final settings = ref.watch(settingsProvider);
+    final editDialog = AlertDialog(
+      title: const Text("Справка"),
+      content: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text:
+                  "Для редактирования задания нажмите кнопку 'Применить', затем на экране песочницы нажмите кнопку сохранить ",
+            ),
+            WidgetSpan(
+              child: Icon(
+                Icons.save,
+                color: Theme.of(context).colorScheme.primary,
+                size: 24,
+              ),
+            ),
+            TextSpan(text: " в правом верхнем углу."),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => context.router.pop(),
+          child: const Text("Закрыть"),
+        ),
+      ],
+    );
 
     return routeRead.when(
       data: (routeRead) => settings.when(
@@ -48,10 +80,27 @@ class RouteView extends ConsumerWidget {
                       ),
                     ),
                     Padding(
-                      padding: const Pad(bottom: 8, horizontal: 8),
+                      padding: const Pad(all: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          onDeletePressed == null
+                              ? const SizedBox()
+                              : FutureButton(
+                                  onPressed: onDeletePressed,
+                                  child: const Text("Удалить"),
+                                ),
+                          Box.gap(8),
+                          ElevatedButton(
+                            onPressed: () => showGeneralDialog(
+                              context: context,
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      editDialog,
+                            ),
+                            child: const Text("Редактировать"),
+                          ),
+                          Box.gap(8),
                           ElevatedButton(
                             onPressed: startingModule.value == null
                                 ? null

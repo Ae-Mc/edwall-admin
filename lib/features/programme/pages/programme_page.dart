@@ -25,12 +25,14 @@ class ProgrammePage extends HookConsumerWidget {
 
     return programme.when(
       data: (programme) => Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => AutoRouter.of(
-            context,
-          ).push(ProgrammeModifyRoute(initial: programme)),
-          child: Icon(Icons.edit),
-        ),
+        floatingActionButton: selectedRoute == null
+            ? FloatingActionButton(
+                onPressed: () => AutoRouter.of(
+                  context,
+                ).push(ProgrammeModifyRoute(initial: programme)),
+                child: Icon(Icons.edit),
+              )
+            : null,
         body: SafeArea(
           child: Row(
             children: [
