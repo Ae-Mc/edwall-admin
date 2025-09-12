@@ -67,7 +67,7 @@ class Programmes extends _$Programmes {
     ref.invalidate(programmeProvider(id));
   }
 
-  Future<void> add(ProgrammeBase programme, {List<int>? routesIds}) async {
+  Future<void> add(ProgrammeBase programme, [List<int>? routesIds]) async {
     final apiClient = await ref.watch(apiClientProvider.future);
     (await clientExceptionHandler(
       routesIds == null

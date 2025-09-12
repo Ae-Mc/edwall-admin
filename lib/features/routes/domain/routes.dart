@@ -84,6 +84,6 @@ class Routes extends _$Routes {
     );
     response.raiseForStatusCode();
     ref.invalidate(routesParentProvider);
-    return response.body!;
+    return forceGetBody(response);
   }
 }

@@ -186,7 +186,7 @@ class ProgrammeModifyPage extends HookConsumerWidget {
                 Box.gap(16),
                 TextField(
                   controller: description,
-                  decoration: InputDecoration(hintText: 'Описание группы'),
+                  decoration: InputDecoration(hintText: 'Описание программы'),
                   maxLines: 5,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
@@ -315,7 +315,7 @@ class ProgrammeModifyPage extends HookConsumerWidget {
                             level: int.parse(level.text),
                             name: name.text,
                           ),
-                          routesIds: routes.value.map((e) => e.id).toList(),
+                          routes.value.map((e) => e.id).toList(),
                         );
                       }
                       if (context.mounted) {

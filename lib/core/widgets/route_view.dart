@@ -45,9 +45,11 @@ class RouteView extends ConsumerWidget {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.router.pop(),
-          child: const Text("Закрыть"),
+        Builder(
+          builder: (context) => TextButton(
+            onPressed: () => context.router.pop(),
+            child: const Text("Закрыть"),
+          ),
         ),
       ],
     );
@@ -92,11 +94,9 @@ class RouteView extends ConsumerWidget {
                                 ),
                           Box.gap(8),
                           ElevatedButton(
-                            onPressed: () => showGeneralDialog(
+                            onPressed: () => showDialog(
                               context: context,
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      editDialog,
+                              builder: (context) => editDialog,
                             ),
                             child: const Text("Редактировать"),
                           ),
