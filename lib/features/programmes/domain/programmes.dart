@@ -6,12 +6,12 @@ import 'package:edwall_admin/core/infrastructure/api_client.dart';
 import 'package:edwall_admin/core/util/response_extension.dart';
 import 'package:edwall_admin/features/programme/domain/programme.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'programmes.g.dart';
 
-@riverpod
-int programmesParent(Ref ref) => Random().nextInt(10);
+var _ = 0;
+
+final programmesParentProvider = Provider<int>((ref) => _++);
 
 @riverpod
 class Programmes extends _$Programmes {
