@@ -21,7 +21,7 @@ class RootPage extends ConsumerWidget {
       routes: const [
         ProgrammesRoute(),
         RoutesRoute(),
-        SandboxRoute(),
+        LessonsRoute(),
         StudyPlansRoute(),
         SandboxRoute(),
       ],
