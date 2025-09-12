@@ -8,7 +8,6 @@ import 'package:edwall_admin/features/lessons/domain/lessons.dart';
 import 'package:edwall_admin/features/lessons/widgets/lesson_card.dart';
 import 'package:edwall_admin/features/study_plans/domain/active_study_plan.dart';
 import 'package:flutter/material.dart' hide BottomSheet;
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
@@ -17,7 +16,6 @@ class LessonsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final nameContains = useState<String?>(null);
     final provider = lessonsProvider;
     final activeStudyPlan = ref.watch(activeStudyPlanProvider);
     final lessons = ref.watch(provider);

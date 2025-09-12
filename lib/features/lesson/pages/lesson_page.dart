@@ -5,7 +5,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
 import 'package:edwall_admin/core/widgets/route_card.dart';
 import 'package:edwall_admin/features/groups/domain/lesson.dart';
-import 'package:edwall_admin/features/lesson/pages/lesson_modify_page.dart';
 import 'package:edwall_admin/core/widgets/route_view.dart';
 import 'package:edwall_admin/features/lessons/domain/lessons.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
@@ -33,13 +32,15 @@ class LessonPage extends HookConsumerWidget {
             ? FloatingActionButton(
                 onPressed: () async {
                   final lessons = (await ref.read(lessonsProvider.future));
-                  context.router.push(
-                    LessonModifyRoute(
-                      initial: programme,
-                      newLessonOrder:
-                          lessons.map((e) => e.order).fold(0, max) + 1,
-                    ),
-                  );
+                  if (context.mounted) {
+                    context.router.push(
+                      LessonModifyRoute(
+                        initial: programme,
+                        newLessonOrder:
+                            lessons.map((e) => e.order).fold(0, max) + 1,
+                      ),
+                    );
+                  }
                 },
                 child: Icon(Icons.edit),
               )
