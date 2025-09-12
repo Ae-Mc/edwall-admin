@@ -22,7 +22,7 @@ class RootPage extends ConsumerWidget {
         ProgrammesRoute(),
         RoutesRoute(),
         SandboxRoute(),
-        SandboxRoute(),
+        StudyPlansRoute(),
         SandboxRoute(),
       ],
       builder: (context, children, router) => Scaffold(

@@ -18,6 +18,9 @@ import 'package:edwall_admin/features/groups/pages/group_select_page.dart';
 import 'package:edwall_admin/features/groups/pages/working_lesson_page.dart';
 import 'package:edwall_admin/features/groups/pages/study_plan_select_page.dart';
 import 'package:edwall_admin/features/splash/pages/splash_page.dart';
+import 'package:edwall_admin/features/study_plans/pages/study_plans_router_page.dart';
+import 'package:edwall_admin/features/study_plans/pages/study_plans_page.dart';
+import 'package:edwall_admin/features/study_plans/pages/study_plan_modify_page.dart';
 import 'package:edwall_admin/features/groups/pages/working_group_page.dart';
 import 'package:edwall_admin/features/groups/pages/working_route_page.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +52,13 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(page: RoutesRoute.page),
         AutoRoute(page: SandboxRoute.page),
+        AutoRoute(
+          page: StudyPlansRouter.page,
+          children: [
+            AutoRoute(page: StudyPlansRoute.page),
+            AutoRoute(page: StudyPlanModifyRoute.page),
+          ],
+        ),
       ],
     ),
     AutoRoute(page: SelectLoginRoute.page),
