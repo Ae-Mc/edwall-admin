@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final hostBaseUrl = Uri.parse("https://edwall.ae-mc.ru");
+final hostBaseUrl = Uri.parse("https://rustaveli.ae-mc.ru");
 const settingsKey = "SETTINGS_KEY";
 const minHoldImageId = 1;
 const maxHoldImageId = 100;
