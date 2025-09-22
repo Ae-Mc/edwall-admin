@@ -6,8 +6,8 @@ import 'package:edwall_admin/features/auth/domain/auth_repository.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:toastification/toastification.dart';
 
 @RoutePage()
 class RootPage extends ConsumerWidget {
@@ -49,11 +49,11 @@ class RootPage extends ConsumerWidget {
                       leading: const Icon(Icons.sync),
                       title: const Text("Синхронизировать базу"),
                       onTap: () async {
-                        final ftoast = FToast()..init(context);
-                        ftoast.showToast(
-                          child: const Text(
+                        Toastification().show(
+                          type: ToastificationType.info,
+                          style: ToastificationStyle.minimal,
+                          title: const Text(
                             'Перезапустите приложение для обновления данных с сервера\nНе забудьте отключится от скалодрома!',
-                            textAlign: TextAlign.center,
                           ),
                         );
                         await (await ref.read(
