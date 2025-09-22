@@ -59,15 +59,25 @@ class FlashboardConnection extends _$FlashboardConnection {
   Future<void> connectToDevice(String address) async {
     late final bool? bondResult;
     try {
-      bondResult = await bluetooth.bondDevice(address);
+      final bondedDevices = await bluetooth.bondedDevices;
+      if (bondedDevices?.map((e) => e.address).contains(address) == true) {
+        bondResult = true;
+      } else {
+        bondResult = await bluetooth.bondDevice(address);
+      }
     } on PlatformException {
       // Device already bonded
       bondResult = true;
     }
     if (bondResult == true) {
       _connection = await bluetooth.connect(address);
+      if (_connection == null) {
+        Logger().d("Didn't connect...");
+      }
 
       ref.invalidateSelf();
+    } else {
+      Logger().e("Device not bonded! Bond result: $bondResult");
     }
   }
 

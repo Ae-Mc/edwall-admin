@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bluetooth_classic_multiplatform/bluetooth_classic_multiplatform.dart';
 import 'package:edwall_admin/features/bluetooth/domain/available_devices.dart';
 import 'package:edwall_admin/features/bluetooth/domain/flashboard_connection.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class DeviceSelectPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final devicesAsyncValue = ref.watch(availableDevicesProvider);
-    final devices = useState(<DiscoveryResultWrapper>{});
+    final devices = useState(<BluetoothDevice>{});
     final futureState = useState<Future<void>?>(null);
     final future = useFuture(futureState.value);
     final localNextRoute = nextRoute;
@@ -55,12 +56,11 @@ class DeviceSelectPage extends HookConsumerWidget {
       body: devicesAsyncValue.when(
         data: (devicesStream) => RefreshIndicator.adaptive(
           onRefresh: () async => ref.invalidate(availableDevicesProvider),
-          child: StreamBuilder<String>(
+          child: StreamBuilder<BluetoothDevice>(
             stream: devicesStream,
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
-                devices.value = devices.value
-                  ..add(DiscoveryResultWrapper(snapshot.data!));
+                devices.value = devices.value..add(snapshot.data!);
               }
 
               return ListView.builder(
@@ -71,7 +71,9 @@ class DeviceSelectPage extends HookConsumerWidget {
                     );
                   } else {
                     return ListTile(
-                      title: Text(devices.value.elementAt(index).address),
+                      title: Text(
+                        devices.value.elementAt(index).name ?? 'Unknown',
+                      ),
                       subtitle: Text(devices.value.elementAt(index).address),
                       onTap:
                           [

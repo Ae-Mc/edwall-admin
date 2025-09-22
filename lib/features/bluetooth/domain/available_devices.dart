@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'available_devices.g.dart';
 
 @riverpod
-Future<Raw<Stream<String>>> availableDevices(Ref ref) async {
+Future<Raw<Stream<BluetoothDevice>>> availableDevices(Ref ref) async {
   final bluetooth = BluetoothClassicMultiplatform();
   if (await bluetooth.isEnabled == false) {
     bluetooth.requestEnable();
@@ -17,5 +17,5 @@ Future<Raw<Stream<String>>> availableDevices(Ref ref) async {
     }
   }
   bluetooth.startScan();
-  return bluetooth.scanResults.map((event) => event.address);
+  return bluetooth.scanResults;
 }
