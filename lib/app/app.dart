@@ -11,18 +11,11 @@ import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 
 class App extends ConsumerWidget {
-  final String title;
-  final AutoDisposeProvider<RootStackRouter> routerProvider;
-
-  const App({
-    super.key,
-    this.title = 'EDWall Admin',
-    this.routerProvider = appRouterProvider,
-  });
+  const App({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appRouter = ref.watch(routerProvider);
+    final appRouter = ref.watch(appRouterProvider);
     final themeModel = ref.watch(themeProvider);
     final colorScheme = ColorScheme.fromSwatch(
       primarySwatch: themeModel.primary,
@@ -64,7 +57,7 @@ class App extends ConsumerWidget {
           animationDuration: Duration(milliseconds: 500),
         ),
         child: MaterialApp.router(
-          title: title,
+          title: 'EDWALL Admin',
           routerConfig: appRouter.config(),
           themeMode: ThemeMode.light,
           theme: ThemeData(
