@@ -44,8 +44,8 @@ class StudyPlanCard extends HookWidget {
                 studyPlan.name,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              Box.gap(8),
               if (expanded.value) ...[
+                Box.gap(8),
                 Text(
                   studyPlan.description,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -71,14 +71,15 @@ class StudyPlanCard extends HookWidget {
                   ],
                 ),
               ] else ...[
-                Text(
-                  studyPlan.description,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
+                // Box.gap(8),
+                // Text(
+                //   studyPlan.description,
+                //   maxLines: 1,
+                //   overflow: TextOverflow.ellipsis,
+                //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                //     color: Theme.of(context).colorScheme.secondary,
+                //   ),
+                // ),
               ],
             ],
           ),

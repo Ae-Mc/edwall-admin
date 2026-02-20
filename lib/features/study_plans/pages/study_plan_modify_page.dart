@@ -8,7 +8,6 @@ import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:flutter/material.dart' hide Route;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 @RoutePage()
 class StudyPlanModifyPage extends HookConsumerWidget {
@@ -32,7 +31,7 @@ class StudyPlanModifyPage extends HookConsumerWidget {
             child: Stack(
               children: [
                 AppBar(
-                  title: Text('Редактирование программы'),
+                  title: Text('ДАННЫЕ ОБ УЧЕБНОМ ПЛАНЕ'),
                   titleSpacing: 30,
                 ),
                 Positioned(top: 4, right: 12, child: CurrentTimeWidget()),
@@ -43,72 +42,19 @@ class StudyPlanModifyPage extends HookConsumerWidget {
             padding: Pad(top: 8, left: 32, right: 48),
             sliver: SliverList.list(
               children: [
-                SizedBox(
-                  height: 48 * 1 + 8 * 0,
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return TableView(
-                        delegate: TableCellListDelegate(
-                          cells: [
-                            [
-                              TableViewCell(
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text('Название учебного плана'),
-                                ),
-                              ),
-                              TableViewCell(
-                                child: TextField(
-                                  controller: name,
-                                  decoration: InputDecoration(
-                                    hintText: 'Название учебного плана',
-                                  ),
-                                  style: TextStyle(
-                                    color: theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ],
-                          columnBuilder: (i) {
-                            final painter = TextPainter(
-                              text: TextSpan(
-                                text: "Название учебного плана",
-                                style: theme.textTheme.bodyMedium,
-                              ),
-                              textDirection: TextDirection.ltr,
-                            )..layout();
-                            final firstColWidth = painter.width;
-                            final leadingPaddings = <double>[0, 16];
-                            final flexibleExtents = [1];
-                            final widths = <double>[firstColWidth];
-                            final flexibleWidth =
-                                leadingPaddings.fold(
-                                  widths.fold(
-                                    constraints.maxWidth,
-                                    (a, b) => a - b,
-                                  ),
-                                  (a, b) => a - b,
-                                ) /
-                                flexibleExtents.length;
-                            for (final index in flexibleExtents) {
-                              widths.insert(index, flexibleWidth);
-                            }
-                            return TableSpan(
-                              padding: SpanPadding(leading: leadingPaddings[i]),
-                              extent: FixedSpanExtent(widths[i]),
-                            );
-                          },
-                          rowBuilder: (index) => TableSpan(
-                            extent: FixedSpanExtent(48),
-                            padding: SpanPadding(leading: (index == 0) ? 0 : 8),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                Text(
+                  'Название учебного плана',
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
-                Box.gap(32),
+                Box.gap(16),
+                TextField(
+                  controller: name,
+                  decoration: InputDecoration(
+                    hintText: 'Название учебного плана',
+                  ),
+                  style: TextStyle(color: theme.colorScheme.onPrimary),
+                ),
+                Box.gap(16),
                 Text(
                   'Описание',
                   style: Theme.of(context).textTheme.labelMedium,
@@ -148,7 +94,7 @@ class StudyPlanModifyPage extends HookConsumerWidget {
                             ),
                             Box.gap(16),
                             SizedBox(
-                              width: 128,
+                              width: 190,
                               child:
                                   (insecure.value
                                   ? FutureButton.new
@@ -168,7 +114,7 @@ class StudyPlanModifyPage extends HookConsumerWidget {
                                             }
                                           }
                                         : null,
-                                    child: Text('УДАЛИТЬ'),
+                                    child: Text('УДАЛИТЬ УЧЕБНЫЙ ПЛАН'),
                                   ),
                             ),
                           ],

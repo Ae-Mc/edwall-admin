@@ -4,6 +4,7 @@ import 'package:edwall_admin/app/router/app_router.dart';
 import 'package:edwall_admin/core/widgets/current_time_widget.dart';
 import 'package:edwall_admin/core/widgets/future_button.dart';
 import 'package:edwall_admin/core/widgets/route_card.dart';
+import 'package:edwall_admin/features/groups/domain/study_plan.dart';
 import 'package:edwall_admin/features/lessons/domain/lessons.dart';
 import 'package:edwall_admin/features/study_plans/domain/active_study_plan.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
@@ -15,13 +16,13 @@ import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 @RoutePage()
 class LessonModifyPage extends HookConsumerWidget {
   final LessonRead? initial;
-  final int newLessonOrder;
+  final int? newLessonOrder;
 
   const LessonModifyPage({
     required this.newLessonOrder,
     super.key,
     this.initial,
-  });
+  }) : assert(newLessonOrder != null || initial != null);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,6 +33,7 @@ class LessonModifyPage extends HookConsumerWidget {
     final routes = useState<List<Route>>(initial?.routes ?? []);
     final insecure = useState(false);
     final theme = Theme.of(context);
+    final studyPlan = ref.watch(activeStudyPlanProvider)!;
 
     return Scaffold(
       body: CustomScrollView(
@@ -40,7 +42,7 @@ class LessonModifyPage extends HookConsumerWidget {
             child: Stack(
               children: [
                 AppBar(
-                  title: Text('Редактирование программы'),
+                  title: Text('Учебный план: ${studyPlan.name}'),
                   titleSpacing: 30,
                 ),
                 Positioned(top: 4, right: 12, child: CurrentTimeWidget()),
@@ -51,72 +53,17 @@ class LessonModifyPage extends HookConsumerWidget {
             padding: Pad(top: 8, left: 32, right: 48),
             sliver: SliverList.list(
               children: [
-                SizedBox(
-                  height: 48 * 2 + 8 * 1,
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return TableView(
-                        delegate: TableCellListDelegate(
-                          cells: [
-                            [
-                              TableViewCell(
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text('Название урока'),
-                                ),
-                              ),
-                              TableViewCell(
-                                child: TextField(
-                                  controller: name,
-                                  decoration: InputDecoration(
-                                    hintText: 'Название урока',
-                                  ),
-                                  style: TextStyle(
-                                    color: theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ],
-                          columnBuilder: (i) {
-                            final painter = TextPainter(
-                              text: TextSpan(
-                                text: "Название программы",
-                                style: theme.textTheme.bodyMedium,
-                              ),
-                              textDirection: TextDirection.ltr,
-                            )..layout();
-                            final firstColWidth = painter.width;
-                            final leadingPaddings = <double>[0, 16];
-                            final flexibleExtents = [1];
-                            final widths = <double>[firstColWidth];
-                            final flexibleWidth =
-                                leadingPaddings.fold(
-                                  widths.fold(
-                                    constraints.maxWidth,
-                                    (a, b) => a - b,
-                                  ),
-                                  (a, b) => a - b,
-                                ) /
-                                flexibleExtents.length;
-                            for (final index in flexibleExtents) {
-                              widths.insert(index, flexibleWidth);
-                            }
-                            return TableSpan(
-                              padding: SpanPadding(leading: leadingPaddings[i]),
-                              extent: FixedSpanExtent(widths[i]),
-                            );
-                          },
-                          rowBuilder: (index) => TableSpan(
-                            extent: FixedSpanExtent(48),
-                            padding: SpanPadding(leading: (index == 0) ? 0 : 8),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                Text(
+                  'Название урока',
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
-                Box.gap(32),
+                Box.gap(16),
+                TextField(
+                  controller: name,
+                  decoration: InputDecoration(hintText: 'Название урока'),
+                  style: TextStyle(color: theme.colorScheme.onPrimary),
+                ),
+                Box.gap(16),
                 Text(
                   'Описание',
                   style: Theme.of(context).textTheme.labelMedium,
@@ -241,17 +188,19 @@ class LessonModifyPage extends HookConsumerWidget {
                           ),
                           routes.value.map((e) => e.id).toList(),
                         );
-                      } else {
+                      } else if (newLessonOrder != null) {
                         await lessons.add(
                           LessonBaseExtended(
                             description: description.text,
                             name: name.text,
-                            order: newLessonOrder,
+                            order: newLessonOrder!,
                             studyPlanId: ref.read(activeStudyPlanProvider)!.id,
                             originProgrammeId: null,
                           ),
                           routes.value.map((e) => e.id).toList(),
                         );
+                      } else {
+                        throw StateError("Impossible state");
                       }
                       if (context.mounted) {
                         context.router.pop();

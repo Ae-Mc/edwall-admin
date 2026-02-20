@@ -45,33 +45,17 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       page: RootRoute.page,
       children: [
-        AutoRoute(
-          page: LessonsRouter.page,
-          children: [
-            AutoRoute(page: LessonRoute.page),
-            AutoRoute(page: LessonsRoute.page),
-            AutoRoute(page: LessonModifyRoute.page),
-            AutoRoute(page: RouteSelectRoute.page),
-          ],
-        ),
-        AutoRoute(
-          page: ProgrammesRouter.page,
-          children: [
-            AutoRoute(page: ProgrammeRoute.page),
-            AutoRoute(page: ProgrammesRoute.page, initial: true),
-            AutoRoute(page: ProgrammeModifyRoute.page),
-            AutoRoute(page: RouteSelectRoute.page),
-          ],
-        ),
+        AutoRoute(page: LessonRoute.page),
+        AutoRoute(page: LessonsRoute.page),
+        AutoRoute(page: LessonModifyRoute.page),
+        AutoRoute(page: ProgrammeRoute.page),
+        AutoRoute(page: ProgrammesRoute.page),
+        AutoRoute(page: ProgrammeModifyRoute.page),
+        AutoRoute(page: RouteSelectRoute.page),
         AutoRoute(page: RoutesRoute.page),
         AutoRoute(page: SandboxRoute.page),
-        AutoRoute(
-          page: StudyPlansRouter.page,
-          children: [
-            AutoRoute(page: StudyPlansRoute.page),
-            AutoRoute(page: StudyPlanModifyRoute.page),
-          ],
-        ),
+        AutoRoute(page: StudyPlansRoute.page, initial: true),
+        AutoRoute(page: StudyPlanModifyRoute.page),
       ],
     ),
     AutoRoute(page: SelectLoginRoute.page),

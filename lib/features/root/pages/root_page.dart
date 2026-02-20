@@ -17,16 +17,9 @@ class RootPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(settingsProvider);
 
-    return AutoTabsRouter.builder(
-      routes: const [
-        ProgrammesRoute(),
-        RoutesRoute(),
-        LessonsRoute(),
-        StudyPlansRoute(),
-        SandboxRoute(),
-      ],
-      builder: (context, children, router) => Scaffold(
-        body: IndexedStack(index: router.activeIndex, children: children),
+    return AutoRouter(
+      builder: (context, child) => Scaffold(
+        body: child,
         drawer: Drawer(
           child: HookConsumer(
             builder: (context, ref, child) {
@@ -78,38 +71,6 @@ class RootPage extends ConsumerWidget {
               );
             },
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Theme.of(context).colorScheme.primary,
-          unselectedItemColor: Theme.of(
-            context,
-          ).colorScheme.primary.withAlpha(128),
-          currentIndex: router.activeIndex,
-          showUnselectedLabels: true,
-          useLegacyColorScheme: false,
-          onTap: (value) => router.setActiveIndex(value),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt_rounded),
-              label: "Программы",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.view_list_rounded),
-              label: "Задания",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.book_rounded),
-              label: "Уроки",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.school_rounded),
-              label: "Учебные планы",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.construction_rounded),
-              label: "Скалодром",
-            ),
-          ],
         ),
       ),
     );

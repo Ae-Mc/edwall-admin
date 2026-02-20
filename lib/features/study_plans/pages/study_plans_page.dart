@@ -14,22 +14,25 @@ class StudyPlansPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final studyPlans = ref.watch(studyPlansProvider);
+
     return Scaffold(
       appBar: AppBar(title: Text("Учебные планы")),
+      floatingActionButton: IconButton(
+        onPressed: () => context.router.push(StudyPlanModifyRoute()),
+        icon: Icon(Icons.add_circle_outline),
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(
+            Theme.of(context).colorScheme.surface,
+          ),
+        ),
+        iconSize: 64,
+      ),
       body: studyPlans.when(
         data: (studyPlans) => ListView.separated(
           padding: const Pad(all: 16),
-          itemCount: studyPlans.length + 1,
+          itemCount: studyPlans.length,
           separatorBuilder: (context, index) => Box.gap(16),
           itemBuilder: (context, index) {
-            if (index == studyPlans.length) {
-              return Center(
-                child: ElevatedButton(
-                  onPressed: () => context.router.push(StudyPlanModifyRoute()),
-                  child: Text("Добавить учебный план"),
-                ),
-              );
-            }
             final studyPlan = studyPlans[index];
 
             return StudyPlanCard(
@@ -41,6 +44,7 @@ class StudyPlansPage extends ConsumerWidget {
                 ref
                     .read(activeStudyPlanProvider.notifier)
                     .setStudyPlan(studyPlan);
+                context.router.push(LessonsRoute());
               },
             );
           },
