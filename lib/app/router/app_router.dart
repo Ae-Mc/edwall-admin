@@ -7,6 +7,7 @@ import 'package:edwall_admin/features/auth/pages/select_login_page.dart';
 import 'package:edwall_admin/features/bluetooth/pages/device_select_page.dart';
 import 'package:edwall_admin/features/lesson/pages/lesson_modify_page.dart';
 import 'package:edwall_admin/features/lesson/pages/lesson_page.dart';
+import 'package:edwall_admin/features/lesson/pages/new_route_select_page.dart';
 import 'package:edwall_admin/features/lessons/pages/lessons_page.dart';
 import 'package:edwall_admin/features/lessons/pages/lessons_router_page.dart';
 import 'package:edwall_admin/features/programme/pages/programme_modify_page.dart';
@@ -56,6 +57,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: SandboxRoute.page),
         AutoRoute(page: StudyPlansRoute.page, initial: true),
         AutoRoute(page: StudyPlanModifyRoute.page),
+        AutoRoute(page: NewRouteSelectRoute.page),
       ],
     ),
     AutoRoute(page: SelectLoginRoute.page),

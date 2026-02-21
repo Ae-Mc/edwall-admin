@@ -142,7 +142,7 @@ class LessonModifyPage extends HookConsumerWidget {
                           child: ElevatedButton(
                             onPressed: () => context.router
                                 .push(
-                                  RouteSelectRoute(
+                                  NewRouteSelectRoute(
                                     excludeIds: routes.value
                                         .map((e) => e.id)
                                         .toList(),
