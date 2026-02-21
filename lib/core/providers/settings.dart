@@ -20,10 +20,13 @@ class Settings extends _$Settings {
 
       if (settingsStr != null) {
         final json = jsonDecode(settingsStr);
-        loadedModel = SettingsModel.fromJson(json);
-      } else {
-        loadedModel = SettingsModel(wallId: 1);
+        try {
+          loadedModel = SettingsModel.fromJson(json);
+        } catch (e) {
+          Logger().e("Error loading settings! Loadind defaults...", error: e);
+        }
       }
+      loadedModel ??= SettingsModel(wallId: 1);
     }
     return loadedModel!;
   }

@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
 import 'package:edwall_admin/core/widgets/route_card.dart';
 import 'package:edwall_admin/features/groups/domain/lesson.dart';
 import 'package:edwall_admin/core/widgets/route_view.dart';
-import 'package:edwall_admin/features/lessons/domain/lessons.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:flutter/material.dart' hide Route;
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -27,20 +24,11 @@ class LessonPage extends HookConsumerWidget {
     final selectedRoute = selectedRouteState.value;
 
     return lesson.when(
-      data: (programme) => Scaffold(
+      data: (lesson) => Scaffold(
         floatingActionButton: selectedRoute == null
             ? FloatingActionButton(
-                onPressed: () async {
-                  final lessons = (await ref.read(lessonsProvider.future));
-                  if (context.mounted) {
-                    context.router.push(
-                      LessonModifyRoute(
-                        initial: programme,
-                        newLessonOrder:
-                            lessons.map((e) => e.order).fold(0, max) + 1,
-                      ),
-                    );
-                  }
+                onPressed: () {
+                  context.router.push(LessonModifyRoute(lessonId: lesson.id));
                 },
                 child: Icon(Icons.edit),
               )
@@ -52,7 +40,7 @@ class LessonPage extends HookConsumerWidget {
                 child: NestedScrollView(
                   floatHeaderSlivers: true,
                   headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                    SliverAppBar(title: Text(programme.name)),
+                    SliverAppBar(title: Text(lesson.name)),
                   ],
                   body: CustomScrollView(
                     slivers: [
@@ -62,7 +50,7 @@ class LessonPage extends HookConsumerWidget {
                         sliver: SliverList.list(
                           children: [
                             Text('Описание', style: textTheme.titleMedium),
-                            Text(programme.description, maxLines: 30),
+                            Text(lesson.description, maxLines: 30),
                           ],
                         ),
                       ),
@@ -71,16 +59,15 @@ class LessonPage extends HookConsumerWidget {
                         padding: const Pad(horizontal: 16),
                         sliver: SliverList.separated(
                           itemBuilder: (context, index) => RouteCard(
-                            route: programme.routes[index],
-                            selected: selectedRoute == programme.routes[index],
+                            route: lesson.routes[index],
+                            selected: selectedRoute == lesson.routes[index],
                             compact: selectedRoute != null,
-                            onTap: () =>
-                                selectedRoute == programme.routes[index]
+                            onTap: () => selectedRoute == lesson.routes[index]
                                 ? selectedRouteState.value = null
                                 : selectedRouteState.value =
-                                      programme.routes[index],
+                                      lesson.routes[index],
                           ),
-                          itemCount: programme.routes.length,
+                          itemCount: lesson.routes.length,
                           separatorBuilder: (context, index) =>
                               const SizedBox(height: 16),
                         ),

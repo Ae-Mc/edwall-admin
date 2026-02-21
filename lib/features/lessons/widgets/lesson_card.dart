@@ -29,7 +29,12 @@ class LessonCard extends HookWidget {
       child: CardInnerInkwell(
         onTap: () => expanded.value = !expanded.value,
         child: Padding(
-          padding: const Pad(all: 16),
+          padding: Pad(
+            top: 4,
+            bottom: expanded.value ? 12 : 4,
+            left: 8,
+            right: expanded.value ? 16 : 4,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -39,10 +44,13 @@ class LessonCard extends HookWidget {
               ),
               if (expanded.value) ...[
                 Box.gap(8),
-                Text(
-                  lesson.description,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
+                Padding(
+                  padding: const Pad(left: 16),
+                  child: Text(
+                    lesson.description,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   ),
                 ),
                 Box.gap(8),
@@ -51,22 +59,12 @@ class LessonCard extends HookWidget {
                   children: [
                     FutureButton(
                       onPressed: () async => await context.router.push(
-                        LessonRoute(lessonId: lesson.id),
+                        LessonModifyRoute(lessonId: lesson.id),
                       ),
                       child: Text("Редактировать"),
                     ),
                   ],
                 ),
-              ] else ...[
-                // Box.gap(8),
-                // Text(
-                //   studyPlan.description,
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                //     color: Theme.of(context).colorScheme.secondary,
-                //   ),
-                // ),
               ],
             ],
           ),

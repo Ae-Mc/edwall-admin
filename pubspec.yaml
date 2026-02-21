@@ -58,6 +58,7 @@ dependencies:
   theme_tailor_annotation: ^3.0.2
   toastification: ^3.0.2
   two_dimensional_scrollables: ^0.3.6
+  flutter_grouped_table: ^1.0.1
 
 dev_dependencies:
   flutter_test:

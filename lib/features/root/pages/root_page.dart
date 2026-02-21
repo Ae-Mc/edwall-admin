@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:edwall_admin/app/router/app_router.dart';
 import 'package:edwall_admin/core/infrastructure/api_client.dart';
 import 'package:edwall_admin/core/providers/settings.dart';
 import 'package:edwall_admin/features/auth/domain/auth_repository.dart';
