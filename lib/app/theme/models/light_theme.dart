@@ -11,4 +11,5 @@ final lightTheme = ThemeModel(
   outline: Pallete.grey.material,
   primary: Pallete.spicyPink.material,
   secondary: Pallete.black.material,
+  card: Pallete.white,
 );

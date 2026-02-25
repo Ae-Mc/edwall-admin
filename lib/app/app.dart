@@ -17,12 +17,18 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = ref.watch(appRouterProvider);
     final themeModel = ref.watch(themeProvider);
-    final colorScheme = ColorScheme.fromSwatch(
-      primarySwatch: themeModel.primary,
-      brightness: themeModel.brightness,
-      backgroundColor: themeModel.background,
-      accentColor: themeModel.secondary,
-    ).copyWith(onSurface: themeModel.primary, outline: themeModel.outline);
+    final colorScheme =
+        ColorScheme.fromSwatch(
+          primarySwatch: themeModel.primary,
+          brightness: themeModel.brightness,
+          backgroundColor: themeModel.background,
+          accentColor: themeModel.secondary,
+          cardColor: themeModel.card,
+        ).copyWith(
+          onSurface: themeModel.primary,
+          outline: themeModel.outline,
+          surface: themeModel.background,
+        );
     ref.listen(authRepositoryProvider, (previous, next) {
       if (!next.isLoading) {
         if (next.hasValue && next.value != previous?.value) {
@@ -96,6 +102,7 @@ class App extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(8),
                 side: BorderSide(color: themeModel.primary),
               ),
+              color: Colors.white,
             ),
             colorScheme: colorScheme,
             textTheme: themeModel.textTheme.apply(

@@ -29,6 +29,8 @@ class ThemeModel extends ThemeExtension<ThemeModel>
   @override
   final Color background;
   @override
+  final Color card;
+  @override
   final String fontFamily;
   @override
   final TextTheme textTheme;
@@ -41,6 +43,7 @@ class ThemeModel extends ThemeExtension<ThemeModel>
     required this.primary,
     required this.secondary,
     required this.outline,
+    required this.card,
     MaterialColor? onSuccess,
     MaterialColor? success,
     MaterialColor? loginIcon,

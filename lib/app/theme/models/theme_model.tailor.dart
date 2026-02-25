@@ -21,6 +21,7 @@ mixin _$ThemeModelTailorMixin on ThemeExtension<ThemeModel> {
   MaterialColor get disabledColor;
   MaterialColor get loginIconBackground;
   Color get background;
+  Color get card;
   String get fontFamily;
   TextTheme get textTheme;
 
@@ -37,6 +38,7 @@ mixin _$ThemeModelTailorMixin on ThemeExtension<ThemeModel> {
     MaterialColor? disabledColor,
     MaterialColor? loginIconBackground,
     Color? background,
+    Color? card,
     String? fontFamily,
     TextTheme? textTheme,
   }) {
@@ -52,6 +54,7 @@ mixin _$ThemeModelTailorMixin on ThemeExtension<ThemeModel> {
       disabledColor: disabledColor ?? this.disabledColor,
       loginIconBackground: loginIconBackground ?? this.loginIconBackground,
       background: background ?? this.background,
+      card: card ?? this.card,
       fontFamily: fontFamily ?? this.fontFamily,
       textTheme: textTheme ?? this.textTheme,
     );
@@ -74,6 +77,7 @@ mixin _$ThemeModelTailorMixin on ThemeExtension<ThemeModel> {
           ? loginIconBackground
           : other.loginIconBackground,
       background: Color.lerp(background, other.background, t)!,
+      card: Color.lerp(card, other.card, t)!,
       fontFamily: t < 0.5 ? fontFamily : other.fontFamily,
       textTheme: t < 0.5 ? textTheme : other.textTheme,
     );
@@ -107,6 +111,7 @@ mixin _$ThemeModelTailorMixin on ThemeExtension<ThemeModel> {
               background,
               other.background,
             ) &&
+            const DeepCollectionEquality().equals(card, other.card) &&
             const DeepCollectionEquality().equals(
               fontFamily,
               other.fontFamily,
@@ -129,6 +134,7 @@ mixin _$ThemeModelTailorMixin on ThemeExtension<ThemeModel> {
       const DeepCollectionEquality().hash(disabledColor),
       const DeepCollectionEquality().hash(loginIconBackground),
       const DeepCollectionEquality().hash(background),
+      const DeepCollectionEquality().hash(card),
       const DeepCollectionEquality().hash(fontFamily),
       const DeepCollectionEquality().hash(textTheme),
     );

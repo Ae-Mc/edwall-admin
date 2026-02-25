@@ -10,4 +10,5 @@ final darkTheme = ThemeModel(
   outline: Pallete.grey.material,
   primary: Pallete.orange.material,
   secondary: Pallete.orchidWhite.material,
+  card: Pallete.white,
 );
