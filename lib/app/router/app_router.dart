@@ -15,6 +15,7 @@ import 'package:edwall_admin/features/programme/pages/programme_page.dart';
 import 'package:edwall_admin/features/programme/pages/route_select_page.dart';
 import 'package:edwall_admin/features/programmes/pages/programmes_page.dart';
 import 'package:edwall_admin/features/programmes/pages/programmes_router_page.dart';
+import 'package:edwall_admin/features/root/pages/mode_select_page.dart';
 import 'package:edwall_admin/features/root/pages/root_page.dart';
 import 'package:edwall_admin/features/routes/pages/routes_page.dart';
 import 'package:edwall_admin/features/sandbox/pages/sandbox_page.dart';
@@ -49,15 +50,16 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: LessonRoute.page),
         AutoRoute(page: LessonsRoute.page),
         AutoRoute(page: LessonModifyRoute.page),
+        AutoRoute(page: ModeSelectRoute.page, initial: true),
+        AutoRoute(page: NewRouteSelectRoute.page),
         AutoRoute(page: ProgrammeRoute.page),
         AutoRoute(page: ProgrammesRoute.page),
         AutoRoute(page: ProgrammeModifyRoute.page),
         AutoRoute(page: RouteSelectRoute.page),
         AutoRoute(page: RoutesRoute.page),
         AutoRoute(page: SandboxRoute.page),
-        AutoRoute(page: StudyPlansRoute.page, initial: true),
+        AutoRoute(page: StudyPlansRoute.page),
         AutoRoute(page: StudyPlanModifyRoute.page),
-        AutoRoute(page: NewRouteSelectRoute.page),
       ],
     ),
     AutoRoute(page: SelectLoginRoute.page),
