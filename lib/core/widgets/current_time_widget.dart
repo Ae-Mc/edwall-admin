@@ -24,13 +24,13 @@ class CurrentTimeWidget extends HookWidget {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    painter.width;
 
     return SizedBox(
-      width: painter.width + 15,
+      width: painter.width + 20,
       child: Text(
-        DateFormat("dd ${DateFormat.MONTH} ${DateFormat.YEAR} HH:mm.ss")
-            .format(now.value),
+        DateFormat(
+          "dd ${DateFormat.MONTH} ${DateFormat.YEAR} HH:mm.ss",
+        ).format(now.value),
         textAlign: TextAlign.left,
       ),
     );
