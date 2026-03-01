@@ -29,7 +29,7 @@ class ProgrammePage extends HookConsumerWidget {
             ? FloatingActionButton(
                 onPressed: () => AutoRouter.of(
                   context,
-                ).push(ProgrammeModifyRoute(initial: programme)),
+                ).push(ProgrammeModifyRoute(programmeId: programme.id)),
                 child: Icon(Icons.edit),
               )
             : null,
