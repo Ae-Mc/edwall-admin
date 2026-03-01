@@ -264,10 +264,10 @@ class WorkingRoutePage extends StatelessWidget {
                                     child: ColorSelectButton(
                                       color: e.$2,
                                       name: [
-                                        'РУКА',
-                                        "НОГА",
+                                        "РУКА",
                                         "СТАРТ",
                                         "ФИНИШ",
+                                        "НОГА",
                                         "ДОП",
                                       ][e.$1],
                                     ),

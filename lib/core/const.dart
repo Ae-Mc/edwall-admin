@@ -6,9 +6,9 @@ const minHoldImageId = 1;
 const maxHoldImageId = 100;
 const holdColors = [
   Color(0xFFFFFFFF),
-  Color(0xFFFF0000),
   Color(0xFF00FF00),
   Color(0xFF0000FF),
+  Color(0xFFFF0000),
   Color(0xFFFFFF00),
 ];
 
