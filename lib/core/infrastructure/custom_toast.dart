@@ -9,6 +9,20 @@ class CustomToast {
 
   CustomToast(this.context);
 
+  static void showTextInfoToastStatic(String text, ThemeData theme) {
+    toastification.show(
+      autoCloseDuration: const Duration(seconds: 3),
+      padding: const Pad(horizontal: 16, vertical: 8),
+      style: ToastificationStyle.fillColored,
+      type: ToastificationType.info,
+      title: Text(text),
+    );
+  }
+
+  void showTextInfoToast(String text) {
+    showTextInfoToastStatic(text, Theme.of(context));
+  }
+
   static void showTextFailureToastStatic(String text, ThemeData theme) {
     final colorTheme = theme.colorScheme;
 
