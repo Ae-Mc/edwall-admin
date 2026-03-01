@@ -1,3 +1,4 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:edwall_admin/core/providers/wall_state.dart';
 import 'package:edwall_admin/core/widgets/hold_widget.dart';
 import 'package:edwall_admin/features/sandbox/widgets/row_number_cell.dart';
@@ -8,11 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ActiveWallWidget extends StatelessWidget {
   final WallRead wall;
   final bool editable;
+  final EdgeInsetsGeometry padding;
 
   const ActiveWallWidget({
     super.key,
     required this.wall,
     required this.editable,
+    this.padding = Pad.zero,
   });
 
   @override
@@ -84,6 +87,7 @@ class ActiveWallWidget extends StatelessWidget {
 
         return ListView(
           scrollDirection: Axis.horizontal,
+          padding: padding,
           children: List.generate(listItems.length, (x) => listItems[x]),
         );
       },
