@@ -8,12 +8,14 @@ class AssignmentCard extends HookWidget {
   final Route route;
   final void Function() onClimbTap;
   final void Function()? onAddTap;
+  final bool showAddButton;
 
   const AssignmentCard({
     super.key,
     required this.route,
     required this.onClimbTap,
     this.onAddTap,
+    this.showAddButton = true,
   });
 
   @override
@@ -71,11 +73,13 @@ class AssignmentCard extends HookWidget {
                       onPressed: onClimbTap,
                       child: const Text("На скалодром"),
                     ),
-                    const Box.gap(16),
-                    ElevatedButton(
-                      onPressed: onAddTap,
-                      child: const Text("Добавить"),
-                    ),
+                    if (showAddButton) ...[
+                      const Box.gap(16),
+                      ElevatedButton(
+                        onPressed: onAddTap,
+                        child: const Text("Добавить"),
+                      ),
+                    ],
                   ],
                 ),
               ],
