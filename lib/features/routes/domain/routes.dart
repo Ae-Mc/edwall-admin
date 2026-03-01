@@ -3,6 +3,7 @@ import 'package:edwall_admin/core/functions/force_get_body.dart';
 import 'package:edwall_admin/core/infrastructure/api_client.dart';
 import 'package:edwall_admin/core/providers/route.dart';
 import 'package:edwall_admin/core/util/response_extension.dart';
+import 'package:edwall_admin/features/programmes/domain/programmes.dart';
 import 'package:edwall_admin/features/routes/domain/current_route_edit_parameters.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,6 +43,7 @@ class Routes extends _$Routes {
     )).raiseForStatusCode();
     ref.invalidate(routesParentProvider);
     ref.invalidate(routeProvider(id));
+    ref.invalidate(programmesParentProvider);
     final params = ref.read(currentRouteEditParametersProvider);
     if (params.id == id) {
       ref.read(currentRouteEditParametersProvider.notifier).setRouteId(null);
