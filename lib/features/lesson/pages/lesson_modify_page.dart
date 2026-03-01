@@ -119,6 +119,7 @@ class LessonModifyPage extends HookConsumerWidget {
                       ...[
                         for (final route in routes.value.indexed) ...[
                           RouteCard(
+                            key: ValueKey('route_${route.$2.id}'),
                             route: route.$2,
                             onDownTap: () =>
                                 routes.value = List.from(routes.value)
