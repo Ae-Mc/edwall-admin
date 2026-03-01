@@ -1,9 +1,9 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:edwall_admin/app/router/app_router.dart';
 import 'package:edwall_admin/core/widgets/current_time_widget.dart';
 import 'package:edwall_admin/core/widgets/outlined_back_button.dart';
 import 'package:edwall_admin/features/lesson/widgets/assignment_card.dart';
-import 'package:edwall_admin/features/routes/domain/routes.dart';
 import 'package:edwall_admin/features/programmes/domain/programmes.dart';
 import 'package:edwall_admin/features/programme/domain/programme.dart';
 import 'package:edwall_admin/features/study_plans/domain/active_study_plan.dart';
@@ -75,7 +75,7 @@ class NewRouteSelectPage extends HookConsumerWidget {
                     items: [
                       const DropdownMenuItem<int?>(
                         value: null,
-                        child: Text('Все трассы'),
+                        child: Text('Не выбран'),
                       ),
                       ...programmes.map(
                         (p) => DropdownMenuItem<int?>(
@@ -97,25 +97,14 @@ class NewRouteSelectPage extends HookConsumerWidget {
                 Text('Список заданий', style: theme.textTheme.labelMedium),
                 const Box.gap(16),
                 // Список заданий — либо все трассы, либо трассы из выбранной программы
-                if (selectedProgrammeId.value == null) ...[
-                  for (final route
-                      in ref
-                          .watch(routesProvider())
-                          .maybeWhen(data: (data) => data, orElse: () => []))
-                    AssignmentCard(
-                      route: route,
-                      onClimbTap: () {
-                        // Пока ничего не делает
-                        print('Кнопка "На скалодром" нажата');
-                      },
-                      onAddTap: excludeIds.contains(route.id)
-                          ? null
-                          : () {
-                              // Закрываем страницу и возвращаем выбранное задание
-                              context.router.pop(route);
-                            },
+                if (selectedProgrammeId.value == null)
+                  Center(
+                    child: Text(
+                      'Выберите раздел учебника, чтобы увидеть его задания.',
+                      style: theme.textTheme.headlineMedium,
                     ),
-                ] else
+                  )
+                else
                   // Загружаем полную программу с её маршрутами
                   ...ref
                       .watch(programmeProvider(selectedProgrammeId.value!))
@@ -124,7 +113,12 @@ class NewRouteSelectPage extends HookConsumerWidget {
                           for (final route in programmeRead.routes)
                             AssignmentCard(
                               route: route,
-                              onClimbTap: () {},
+                              onClimbTap: () => context.router.push(
+                                RouteModifyRoute(
+                                  routeId: route.id,
+                                  programmeId: programmeRead.id,
+                                ),
+                              ),
                               onAddTap: excludeIds.contains(route.id)
                                   ? null
                                   : () => context.router.pop(route),

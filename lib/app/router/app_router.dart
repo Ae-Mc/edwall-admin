@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:edwall_admin/features/textbook/pages/route_modify_page.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:edwall_admin/features/auth/pages/login_page.dart';
 import 'package:edwall_admin/features/auth/pages/register_page.dart';
@@ -55,6 +56,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ProgrammeRoute.page),
         AutoRoute(page: ProgrammesRoute.page),
         AutoRoute(page: ProgrammeModifyRoute.page),
+        AutoRoute(page: RouteModifyRoute.page),
         AutoRoute(page: RouteSelectRoute.page),
         AutoRoute(page: RoutesRoute.page),
         AutoRoute(page: SandboxRoute.page),
