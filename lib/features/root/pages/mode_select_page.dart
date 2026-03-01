@@ -14,7 +14,10 @@ class ModeSelectPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton(onPressed: () {}, child: Text("Учебник")),
+            ElevatedButton(
+              onPressed: () => context.router.push(TextbookRoute()),
+              child: Text("Учебник"),
+            ),
             Box.gap(16),
             ElevatedButton(
               onPressed: () => context.router.push(StudyPlansRoute()),
