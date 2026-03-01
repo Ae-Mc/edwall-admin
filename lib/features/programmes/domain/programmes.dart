@@ -2,7 +2,6 @@ import 'package:edwall_admin/core/functions/exception_handlers/client_exception_
 import 'package:edwall_admin/core/functions/force_get_body.dart';
 import 'package:edwall_admin/core/infrastructure/api_client.dart';
 import 'package:edwall_admin/core/util/response_extension.dart';
-import 'package:edwall_admin/features/programme/domain/programme.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'programmes.g.dart';
@@ -37,7 +36,6 @@ class Programmes extends _$Programmes {
       apiClient.apiV1ProgrammesProgrammeIdDelete(programmeId: id),
     );
     ref.invalidate(programmesParentProvider);
-    ref.invalidate(programmeProvider(id));
   }
 
   Future<void> modify(
@@ -62,7 +60,6 @@ class Programmes extends _$Programmes {
     );
     response.raiseForStatusCode();
     ref.invalidate(programmesParentProvider);
-    ref.invalidate(programmeProvider(id));
   }
 
   Future<void> add(ProgrammeBase programme, [List<int>? routesIds]) async {
