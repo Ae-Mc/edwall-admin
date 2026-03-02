@@ -1,8 +1,7 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
-import 'package:edwall_admin/core/widgets/current_time_widget.dart';
-import 'package:edwall_admin/core/widgets/outlined_back_button.dart';
+import 'package:edwall_admin/core/widgets/default_app_bar.dart';
 import 'package:edwall_admin/features/lesson/widgets/assignment_card.dart';
 import 'package:edwall_admin/features/programmes/domain/programmes.dart';
 import 'package:edwall_admin/features/programme/domain/programme.dart';
@@ -31,46 +30,21 @@ class NewRouteSelectPage extends HookConsumerWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // Шапка (идентична lesson_modify_page.dart)
           SliverToBoxAdapter(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const Pad(left: 30, top: 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      OutlinedBackButton(),
-                      Box.gap(16),
-                      Expanded(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(text: 'Учебный план: ${studyPlan.name}'),
-                            ],
-                          ),
-                          style: theme.textTheme.titleLarge,
-                        ),
-                      ),
-                      CurrentTimeWidget(),
-                    ],
-                  ),
-                ),
-              ],
+            child: DefaultAppBar(
+              title: Text('Учебный план: ${studyPlan.name}'),
             ),
           ),
-          // Селектор раздела учебника
           SliverPadding(
             padding: Pad(top: 8, left: 32, right: 48),
             sliver: SliverList.list(
               children: [
                 Text('Раздел учебника', style: theme.textTheme.labelMedium),
                 const Box.gap(16),
-                // Селектор программы
                 programmesAsync.when(
                   data: (programmes) => DropdownButton<int?>(
                     value: selectedProgrammeId.value,
-                    hint: const Text('Выберите программу'),
+                    hint: const Text('Выберите раздел'),
                     isExpanded: true,
                     items: [
                       const DropdownMenuItem<int?>(
@@ -93,10 +67,8 @@ class NewRouteSelectPage extends HookConsumerWidget {
                   error: (e, _) => Text('Ошибка загрузки программ: $e'),
                 ),
                 const Box.gap(16),
-                // Список заданий
                 Text('Список заданий', style: theme.textTheme.labelMedium),
                 const Box.gap(16),
-                // Список заданий — либо все трассы, либо трассы из выбранной программы
                 if (selectedProgrammeId.value == null)
                   Center(
                     child: Text(

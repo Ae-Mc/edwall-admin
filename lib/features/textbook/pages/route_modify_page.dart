@@ -8,8 +8,7 @@ import 'package:edwall_admin/core/providers/route.dart';
 import 'package:edwall_admin/core/providers/settings.dart';
 import 'package:edwall_admin/core/providers/wall.dart';
 import 'package:edwall_admin/core/providers/wall_state.dart';
-import 'package:edwall_admin/core/widgets/current_time_widget.dart';
-import 'package:edwall_admin/core/widgets/outlined_back_button.dart';
+import 'package:edwall_admin/core/widgets/default_app_bar.dart';
 import 'package:edwall_admin/features/groups/widgets/color_select_button.dart';
 import 'package:edwall_admin/features/groups/widgets/error_column.dart';
 import 'package:edwall_admin/features/programme/domain/programme.dart';
@@ -93,31 +92,7 @@ class RouteModifyPage extends HookConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const Pad(left: 30, top: 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      OutlinedBackButton(),
-                      Box.gap(16),
-                      Expanded(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(text: 'Раздел: ${programme.name}'),
-                            ],
-                          ),
-                          style: theme.textTheme.titleLarge,
-                        ),
-                      ),
-                      CurrentTimeWidget(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            child: DefaultAppBar(title: Text('Раздел: ${programme.name}')),
           ),
           SliverPadding(
             padding: Pad(top: 8, left: 32, right: 48),

@@ -1,7 +1,6 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:edwall_admin/app/router/app_router.dart';
-import 'package:edwall_admin/core/widgets/current_time_widget.dart';
+import 'package:edwall_admin/core/widgets/default_app_bar.dart';
 import 'package:edwall_admin/core/widgets/future_button.dart';
 import 'package:edwall_admin/core/widgets/route_card.dart';
 import 'package:edwall_admin/features/programme/domain/programme.dart';
@@ -50,18 +49,12 @@ class ProgrammeModifyPage extends HookConsumerWidget {
             body: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: Stack(
-                    children: [
-                      AppBar(
-                        title: Text(
-                          initial == null
-                              ? 'Добавление раздела'
-                              : 'Редактирование раздела',
-                        ),
-                        titleSpacing: 30,
-                      ),
-                      Positioned(top: 4, right: 12, child: CurrentTimeWidget()),
-                    ],
+                  child: DefaultAppBar(
+                    title: Text(
+                      initial == null
+                          ? 'Добавление раздела'
+                          : 'Редактирование раздела',
+                    ),
                   ),
                 ),
                 SliverPadding(
@@ -242,25 +235,6 @@ class ProgrammeModifyPage extends HookConsumerWidget {
                           ),
                           Box.gap(16),
                         ],
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () => context.router
-                                .push(
-                                  RouteSelectRoute(
-                                    excludeIds: routes.value
-                                        .map((e) => e.id)
-                                        .toList(),
-                                  ),
-                                )
-                                .then((value) {
-                                  if (value != null && value is Route) {
-                                    routes.value = List.from(routes.value)
-                                      ..add(value);
-                                  }
-                                }),
-                            child: const Text('Добавить задание'),
-                          ),
-                        ),
                       ],
                     ],
                   ),

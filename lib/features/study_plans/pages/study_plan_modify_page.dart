@@ -1,7 +1,7 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
-import 'package:edwall_admin/core/widgets/current_time_widget.dart';
+import 'package:edwall_admin/core/widgets/default_app_bar.dart';
 import 'package:edwall_admin/core/widgets/future_button.dart';
 import 'package:edwall_admin/features/study_plans/domain/study_plans.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
@@ -28,15 +28,7 @@ class StudyPlanModifyPage extends HookConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: Stack(
-              children: [
-                AppBar(
-                  title: Text('ДАННЫЕ ОБ УЧЕБНОМ ПЛАНЕ'),
-                  titleSpacing: 30,
-                ),
-                Positioned(top: 4, right: 12, child: CurrentTimeWidget()),
-              ],
-            ),
+            child: DefaultAppBar(title: Text('ДАННЫЕ ОБ УЧЕБНОМ ПЛАНЕ')),
           ),
           SliverPadding(
             padding: Pad(top: 8, left: 32, right: 48),
