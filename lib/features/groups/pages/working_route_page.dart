@@ -284,7 +284,7 @@ class WorkingRoutePage extends StatelessWidget {
                                     final notifier = ref.read(
                                       wallStateProvider(0, 0).notifier,
                                     );
-                                    notifier.clear(wall);
+                                    await notifier.clear(wall);
                                     await notifier.showRoute(route, 0);
                                   },
                                   child: Text("ВЕРНУТЬ К ИСХОДНОМУ"),
@@ -323,7 +323,7 @@ class WorkingRoutePage extends StatelessWidget {
         .read(selectedRouteProvider.notifier)
         .loadRoute(lesson.routes[newIndex].id);
     final notifier = ref.read(wallStateProvider(0, 0).notifier);
-    notifier.clear(wall);
+    await notifier.clear(wall);
     await notifier.showRoute(route, 0);
   }
 

@@ -4,6 +4,7 @@ import 'package:edwall_admin/core/infrastructure/api_client.dart';
 import 'package:edwall_admin/core/util/response_extension.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 part 'programmes.g.dart';
 
 var _ = 0;

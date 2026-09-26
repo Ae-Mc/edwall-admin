@@ -73,7 +73,7 @@ class WorkingGroupPage extends StatelessWidget {
                             final error =
                                 completedLessons.error ?? studyPlan.error;
                             final isLoading =
-                                completedLessons.valueOrNull == null ||
+                                completedLessons.value == null ||
                                 studyPlan.isLoading;
 
                             if (isLoading) {

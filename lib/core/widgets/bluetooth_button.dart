@@ -21,7 +21,7 @@ class _BluetoothButtonState extends ConsumerState<BluetoothButton> {
           ? null
           : (() async {
               setState(() => pressed = true);
-              if (connection.valueOrNull != null) {
+              if (connection.value != null) {
                 await ref
                     .read(flashboardConnectionProvider.notifier)
                     .disconnect();
@@ -33,7 +33,7 @@ class _BluetoothButtonState extends ConsumerState<BluetoothButton> {
               setState(() => pressed = false);
             }),
       icon: const Icon(Icons.bluetooth_connected_rounded),
-      color: connection.valueOrNull != null
+      color: connection.value != null
           ? Theme.of(context).colorScheme.primary
           : Theme.of(context).disabledColor,
     );

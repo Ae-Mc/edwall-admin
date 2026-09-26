@@ -45,7 +45,7 @@ class CompletedRoutes extends _$CompletedRoutes {
           .read(completedLessonsProvider.notifier)
           .completeLessonLocally(lessonId);
     }
-    state = state..valueOrNull?.add(routeId);
+    state = state..value?.add(routeId);
   }
 
   Future<void> makeRouteIncomplete(int routeId) async {
@@ -60,6 +60,6 @@ class CompletedRoutes extends _$CompletedRoutes {
     if (!response.isSuccessful) {
       throw Exception('Failed to make route $routeId incomplete');
     }
-    state = state..valueOrNull?.remove(routeId);
+    state = state..value?.remove(routeId);
   }
 }

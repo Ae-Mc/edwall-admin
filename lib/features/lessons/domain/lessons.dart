@@ -7,6 +7,7 @@ import 'package:edwall_admin/features/groups/domain/lesson.dart';
 import 'package:edwall_admin/features/study_plans/domain/active_study_plan.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 part 'lessons.g.dart';
 
 var _ = 0;

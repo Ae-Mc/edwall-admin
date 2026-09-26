@@ -33,11 +33,11 @@ class CompletedLessons extends _$CompletedLessons {
     if (!response.isSuccessful) {
       throw Exception('Failed to complete lesson $lessonId');
     }
-    state = state..valueOrNull?.add(lessonId);
+    state = state..value?.add(lessonId);
   }
 
   void completeLessonLocally(int lessonId) {
-    state = state..valueOrNull?.add(lessonId);
+    state = state..value?.add(lessonId);
   }
 
   Future<void> makeLessonIncomplete(int lessonId) async {
@@ -51,6 +51,6 @@ class CompletedLessons extends _$CompletedLessons {
     if (!response.isSuccessful) {
       throw Exception('Failed to make lesson $lessonId incomplete');
     }
-    state = state..valueOrNull?.remove(lessonId);
+    state = state..value?.remove(lessonId);
   }
 }

@@ -156,7 +156,7 @@ class RouteCard extends HookWidget {
       final settings = await ref.read(settingsProvider.future);
       final wall = await ref.read(wallProvider(settings.wallId).future);
       final wallState = ref.read(wallStateProvider(0, 0).notifier);
-      wallState.clear(wall);
+      await wallState.clear(wall);
       await wallState.showRoute(selectedRoute!, 0);
 
       if (ref.context.mounted) {

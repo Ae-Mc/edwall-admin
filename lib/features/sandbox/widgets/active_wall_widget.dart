@@ -51,7 +51,7 @@ class ActiveWallWidget extends StatelessWidget {
                         initialState:
                             ref
                                 .watch(wallStateProvider(hold.bank, hold.$num))
-                                .valueOrNull ??
+                                .value ??
                             0,
                         hold: wall.holds.firstWhere(
                           (element) => element.numberInWall == numberInWall,

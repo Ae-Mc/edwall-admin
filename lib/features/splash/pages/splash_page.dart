@@ -27,6 +27,7 @@ class SplashPage extends StatelessWidget {
                   () => () async {
                     final results = <bool>[];
                     results.addAll([
+                      await Permission.bluetoothScan.request().isDenied,
                       await Permission.bluetoothConnect.request().isDenied,
                     ]);
                     return !results.any((element) => element);

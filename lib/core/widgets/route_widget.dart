@@ -26,7 +26,7 @@ class RouteWidget extends ConsumerWidget {
             wallProvider(route.holds.first.wallhold.wallId),
           );
           if (loadingWall.hasValue) {
-            localWall = loadingWall.valueOrNull;
+            localWall = loadingWall.value;
           } else if (loadingWall.hasError) {
             return ErrorText(error: loadingWall.error!);
           } else {

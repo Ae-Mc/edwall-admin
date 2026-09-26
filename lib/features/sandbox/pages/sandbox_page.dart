@@ -73,8 +73,8 @@ class SandboxPage extends ConsumerWidget {
                   return const SizedBox();
                 }
                 return IconButton(
-                  onPressed: () {
-                    ref
+                  onPressed: () async {
+                    await ref
                         .read(wallStateProvider(1, 1).notifier)
                         .clear(wall.value!);
                     ref

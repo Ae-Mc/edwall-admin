@@ -39,7 +39,7 @@ class Settings extends _$Settings {
   }
 
   Future<void> addSavedLogin(SavedLogin login) {
-    final settings = state.valueOrNull;
+    final settings = state.value;
     final newLogins = List<SavedLogin>.from(settings?.savedLogins ?? []);
     final newLogin = login;
     final existingLoginIndex = newLogins.indexWhere(
@@ -55,7 +55,7 @@ class Settings extends _$Settings {
   }
 
   Future<void> removeSavedLogin(SavedLogin login) {
-    final settings = state.valueOrNull;
+    final settings = state.value;
     final newLogins = List<SavedLogin>.from(settings?.savedLogins ?? []);
     newLogins.remove(login);
     return save(

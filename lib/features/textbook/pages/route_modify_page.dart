@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/core/const.dart';
@@ -32,7 +34,7 @@ class RouteModifyPage extends HookConsumerWidget {
     final theme = Theme.of(context);
     final routeAsyncValue = routeId == null
         ? AsyncValue.data(null)
-        : ref.watch(RouteProvider(routeId!));
+        : ref.watch(routeProvider(routeId!));
     final programmeAsyncValue = ref.watch(programmeProvider(programmeId));
     final settings = ref.watch(settingsProvider).requireValue;
     final wallAsyncValue = ref.watch(wallProvider(settings.wallId));
@@ -44,9 +46,9 @@ class RouteModifyPage extends HookConsumerWidget {
         wallAsyncValue.isLoading ||
         routeAsyncValue.isLoading ||
         programmeAsyncValue.isLoading;
-    final programme = programmeAsyncValue.valueOrNull;
-    final route = routeAsyncValue.valueOrNull;
-    final wall = wallAsyncValue.valueOrNull;
+    final programme = programmeAsyncValue.value;
+    final route = routeAsyncValue.value;
+    final wall = wallAsyncValue.value;
 
     final unsafe = useState(false);
     final name = useTextEditingController(text: route?.name ?? '');
@@ -56,11 +58,13 @@ class RouteModifyPage extends HookConsumerWidget {
 
     useEffect(() {
       if (route != null) {
-        ref.read(wallStateProvider(0, 0).notifier).showRoute(route, 0);
+        unawaited(
+          ref.read(wallStateProvider(0, 0).notifier).showRoute(route, 0),
+        );
         name.text = route.name;
         description.text = route.description;
       } else if (routeId == null && wall != null) {
-        ref.read(wallStateProvider(0, 0).notifier).clear(wall);
+        unawaited(ref.read(wallStateProvider(0, 0).notifier).clear(wall));
       }
       return null;
     }, [route, wallAsyncValue]);
@@ -228,7 +232,11 @@ class RouteModifyPage extends HookConsumerWidget {
                             ref.invalidate(programmeProvider(programmeId));
                           }
                         } on ExceptionWithMessage catch (e) {
-                          CustomToast(context).showTextFailureToast(e.message);
+                          if (context.mounted) {
+                            CustomToast(
+                              context,
+                            ).showTextFailureToast(e.message);
+                          }
                           return;
                         }
                         if (context.mounted) {

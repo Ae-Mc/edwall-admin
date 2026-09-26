@@ -30,7 +30,6 @@ import 'package:edwall_admin/features/study_plans/pages/study_plans_page.dart';
 import 'package:edwall_admin/features/study_plans/pages/study_plan_modify_page.dart';
 import 'package:edwall_admin/features/textbook/pages/textbook_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'app_router.gr.dart';
 part 'app_router.g.dart';

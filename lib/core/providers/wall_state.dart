@@ -12,6 +12,7 @@ class WallState extends _$WallState {
   @override
   Future<int> build(int bank, int led) async {
     final settings = await ref.watch(settingsProvider.future);
+
     if (settings.wallId < 0) {
       return 0;
     }
@@ -25,8 +26,27 @@ class WallState extends _$WallState {
     }
   }
 
-  void setLed(int newState) {
-    ref.read(flashboardConnectionProvider.notifier).setLed(bank, led, newState);
+  int? _readHoldState(int holdBank, int holdLed) {
+    if (holdBank == bank && holdLed == led) {
+      return _state;
+    }
+    return ref.read(wallStateProvider(holdBank, holdLed)).value;
+  }
+
+  void _changeHoldState(int holdBank, int holdLed, int newState) {
+    if (holdBank == bank && holdLed == led) {
+      _changeState(newState);
+      return;
+    }
+    ref
+        .read(wallStateProvider(holdBank, holdLed).notifier)
+        ._changeState(newState);
+  }
+
+  Future<void> setLed(int newState) async {
+    await ref
+        .read(flashboardConnectionProvider.notifier)
+        .setLed(bank, led, newState);
     _changeState(newState);
   }
 
@@ -42,9 +62,7 @@ class WallState extends _$WallState {
           final int holdModule =
               ((element.numberInWall % activeWall.width) / holdsPerModule)
                   .floor();
-          final ledHoldState = ref
-              .read(wallStateProvider(element.bank, element.$num))
-              .valueOrNull;
+          final ledHoldState = _readHoldState(element.bank, element.$num);
           return holdModule >= startingModule &&
               holdModule < startingModule + route.numberOfModules &&
               ledHoldState != null &&
@@ -54,12 +72,12 @@ class WallState extends _$WallState {
         .toList();
 
     for (final hold in toBeCleared) {
-      ref.read(wallStateProvider(hold.$1, hold.$2).notifier)._changeState(0);
+      _changeHoldState(hold.$1, hold.$2, 0);
     }
     final flashboardConnection = ref.read(
       flashboardConnectionProvider.notifier,
     );
-    flashboardConnection.setLeds(toBeCleared, 0);
+    await flashboardConnection.setLeds(toBeCleared, 0);
 
     final routeWithOffset = route.copyWith(
       holds: route.holds
@@ -74,23 +92,17 @@ class WallState extends _$WallState {
           )
           .toList(),
     );
-    flashboardConnection.showRoute(routeWithOffset);
+    await flashboardConnection.showRoute(routeWithOffset);
     for (final hold in routeWithOffset.holds) {
-      ref
-          .read(
-            wallStateProvider(hold.wallhold.bank, hold.wallhold.$num).notifier,
-          )
-          ._changeState(hold.type);
+      _changeHoldState(hold.wallhold.bank, hold.wallhold.$num, hold.type);
     }
     ref.invalidateSelf();
   }
 
-  void clear(WallRead wall) {
-    ref.read(flashboardConnectionProvider.notifier).clear();
+  Future<void> clear(WallRead wall) async {
+    await ref.read(flashboardConnectionProvider.notifier).clear();
     for (final hold in wall.holds) {
-      ref
-          .read(wallStateProvider(hold.bank, hold.$num).notifier)
-          ._changeState(0);
+      _changeHoldState(hold.bank, hold.$num, 0);
     }
   }
 }

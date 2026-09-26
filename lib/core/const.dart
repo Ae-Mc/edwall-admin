@@ -21,6 +21,17 @@ final colorToColorNumber = {
   Color(0xFFFFFF00): 5,
 };
 
+final colorToLEColorNumber = {
+  Color(0xFF000000): 0,
+  Color(0xFFFF0000): 1,
+  Color(0xFF00FF00): 2,
+  Color(0xFF0000FF): 3,
+  Color(0xFFFFFF00): 4,
+  Color(0xFFFF00FF): 5,
+  Color(0xFF00FFFF): 6,
+  Color(0xFFFFFFFF): 7,
+};
+
 const Map<int, Color> holdTypeToColor = {
   0: Color(0xFF000000),
   1: Color(0xFFFFFFFF),

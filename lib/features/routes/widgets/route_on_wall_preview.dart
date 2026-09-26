@@ -105,7 +105,7 @@ class RouteOnWallPreview extends StatelessWidget {
                         initialState:
                             ref
                                 .watch(wallStateProvider(hold.bank, hold.$num))
-                                .valueOrNull ??
+                                .value ??
                             0,
                         hold: hold,
                         size: size * 0.8,

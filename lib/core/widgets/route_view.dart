@@ -57,7 +57,7 @@ class RouteView extends ConsumerWidget {
     return routeRead.when(
       data: (routeRead) => settings.when(
         data: (settings) {
-          final connectedWall = ref.watch(WallProvider(settings.wallId));
+          final connectedWall = ref.watch(wallProvider(settings.wallId));
 
           return connectedWall.when(
             data: (connectedWall) => HookBuilder(

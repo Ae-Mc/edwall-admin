@@ -1,25 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bluetooth_classic_multiplatform/bluetooth_classic_multiplatform.dart';
 import 'package:edwall_admin/features/bluetooth/domain/available_devices.dart';
+import 'package:edwall_admin/features/bluetooth/domain/bluetooth_device.dart';
 import 'package:edwall_admin/features/bluetooth/domain/flashboard_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-
-class DiscoveryResultWrapper {
-  final String address;
-
-  const DiscoveryResultWrapper(this.address);
-
-  @override
-  int get hashCode => address.hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other is DiscoveryResultWrapper && address == other.address;
-  }
-}
 
 @RoutePage()
 class DeviceSelectPage extends HookConsumerWidget {
@@ -35,7 +21,7 @@ class DeviceSelectPage extends HookConsumerWidget {
     final localNextRoute = nextRoute;
 
     ref.listen(flashboardConnectionProvider, (previous, next) {
-      if (next.valueOrNull != null) {
+      if (next.value != null) {
         Logger().d("Connected");
         if (localNextRoute == null) {
           AutoRouter.of(context).maybePop();
@@ -44,6 +30,37 @@ class DeviceSelectPage extends HookConsumerWidget {
         }
       }
     }, onError: (error, stackTrace) => Logger().e(error));
+
+    final discoveredDevice = devicesAsyncValue.value;
+    if (discoveredDevice != null) {
+      devices.value.add(discoveredDevice);
+    }
+
+    Widget devicesList() => RefreshIndicator.adaptive(
+      onRefresh: () async {
+        devices.value = {};
+        ref.invalidate(availableDevicesProvider);
+      },
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          final device = devices.value.elementAt(index);
+          return ListTile(
+            title: Text(device.name ?? "Нет имени"),
+            subtitle: Text(device.address),
+            onTap:
+                [
+                  ConnectionState.none,
+                  ConnectionState.done,
+                ].contains(future.connectionState)
+                ? () => futureState.value = ref
+                      .read(flashboardConnectionProvider.notifier)
+                      .connectToDevice(device)
+                : null,
+          );
+        },
+        itemCount: devices.value.length,
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text("Доступные устройства")),
@@ -54,60 +71,18 @@ class DeviceSelectPage extends HookConsumerWidget {
               child: const Text("Пропустить"),
             ),
       body: devicesAsyncValue.when(
-        data: (devicesStream) => RefreshIndicator.adaptive(
-          onRefresh: () async => ref.invalidate(availableDevicesProvider),
-          child: StreamBuilder<BluetoothDevice>(
-            stream: devicesStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data != null) {
-                devices.value = devices.value..add(snapshot.data!);
-              }
-
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  if (index == devices.value.length) {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  } else {
-                    return ListTile(
-                      title: Text(
-                        devices.value.elementAt(index).name ?? 'Unknown',
-                      ),
-                      subtitle: Text(devices.value.elementAt(index).address),
-                      onTap:
-                          [
-                            ConnectionState.none,
-                            ConnectionState.done,
-                          ].contains(future.connectionState)
-                          ? () => futureState.value = ref
-                                .read(flashboardConnectionProvider.notifier)
-                                .connectToDevice(
-                                  devices.value.elementAt(index).address,
-                                )
-                          : null,
-                    );
-                  }
-                },
-                itemCount:
-                    devices.value.length +
-                    (snapshot.connectionState == ConnectionState.done ? 0 : 1),
-              );
-            },
-          ),
-        ),
-        error: (error, stackTrace) => SingleChildScrollView(
-          child: Center(
-            child: Text(
-              error.toString(),
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
+        data: (_) => devicesList(),
+        error: (error, stackTrace) => Center(
+          child: Text(
+            error.toString(),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: Theme.of(context).colorScheme.error,
             ),
           ),
         ),
-        loading: () =>
-            const Center(child: CircularProgressIndicator.adaptive()),
+        loading: () => devices.value.isEmpty
+            ? const Center(child: CircularProgressIndicator.adaptive())
+            : devicesList(),
       ),
     );
   }

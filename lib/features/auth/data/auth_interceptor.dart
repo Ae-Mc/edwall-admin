@@ -5,7 +5,7 @@ import 'package:edwall_admin/features/auth/domain/selected_login.dart';
 import 'package:edwall_admin/generated/schema.swagger.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 
-class AuthInterceptor implements InterceptorContract {
+class AuthInterceptor implements HttpInterceptor {
   SavedLogin? login;
   Settings settingsProvider;
   SelectedLogin selectedLoginProvider;
@@ -49,10 +49,17 @@ class AuthInterceptor implements InterceptorContract {
           username: localLogin.username,
         );
         await selectedLoginProvider.selectLogin(newLogin);
-        final request = response.request?.copyWith();
-        if (request == null) {
+        final originalRequest = response.request;
+        if (originalRequest is! Request) {
           return response;
         }
+        final request = Request(originalRequest.method, originalRequest.url)
+          ..headers.addAll(originalRequest.headers)
+          ..bodyBytes = originalRequest.bodyBytes
+          ..encoding = originalRequest.encoding
+          ..followRedirects = originalRequest.followRedirects
+          ..maxRedirects = originalRequest.maxRedirects
+          ..persistentConnection = originalRequest.persistentConnection;
         request.headers["Authorization"] =
             "${newToken.body!.tokenType} ${newToken.body!.accessToken}";
 
@@ -64,8 +71,11 @@ class AuthInterceptor implements InterceptorContract {
   }
 
   @override
-  Future<bool> shouldInterceptRequest() async => true;
+  Future<bool> shouldInterceptRequest({required BaseRequest request}) async =>
+      true;
 
   @override
-  Future<bool> shouldInterceptResponse() async => true;
+  Future<bool> shouldInterceptResponse({
+    required BaseResponse response,
+  }) async => true;
 }

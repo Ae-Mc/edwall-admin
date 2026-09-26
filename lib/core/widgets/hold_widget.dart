@@ -99,9 +99,9 @@ class _HoldWidgetState extends ConsumerState<HoldWidget>
     );
   }
 
-  void changeHold(WidgetRef ref, int state) {
+  Future<void> changeHold(WidgetRef ref, int state) async {
     final newState = ref.read(holdColorProvider);
-    ref
+    await ref
         .read(wallStateProvider(widget.hold.bank, widget.hold.$num).notifier)
         .setLed(state == newState ? 0 : newState);
   }
