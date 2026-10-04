@@ -1,11 +1,26 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-final hostBaseUrl = Uri.parse(
-  const String.fromEnvironment(
-    'HOST_BASE_URL',
-    defaultValue: 'https://edwall.ae-mc.ru',
+class AppConfig {
+  const AppConfig({required this.name, required this.hostBaseUrl});
+
+  final String name;
+  final String hostBaseUrl;
+}
+
+const appConfigs = {
+  'edwall': AppConfig(
+    name: 'Edwall Admin',
+    hostBaseUrl: 'https://edwall.ae-mc.ru',
   ),
-);
+  'rustaveli': AppConfig(
+    name: 'Rustaveli Admin',
+    hostBaseUrl: 'https://rustaveli.ae-mc.ru',
+  ),
+};
+
+const defaultAppFlavor = 'edwall';
+final appConfig = appConfigs[appFlavor] ?? appConfigs[defaultAppFlavor]!;
+final hostBaseUrl = Uri.parse(appConfig.hostBaseUrl);
 const settingsKey = "SETTINGS_KEY";
 const minHoldImageId = 1;
 const maxHoldImageId = 100;

@@ -5,21 +5,42 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "edwall-admin",
+            "name": "Edwall Admin",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "toolArgs": [
+                "--flavor",
+                "edwall"
+            ]
+        },
+        {
+            "name": "Rustaveli Admin",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--flavor",
+                "rustaveli"
+            ]
         },
         {
             "name": "edwall-admin (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "toolArgs": [
+                "--flavor",
+                "edwall"
+            ]
         },
         {
             "name": "edwall-admin (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "toolArgs": [
+                "--flavor",
+                "edwall"
+            ]
         }
     ]
 }
