@@ -9,9 +9,9 @@ part 'current_route_edit_parameters.freezed.dart';
 sealed class RouteEditParameters with _$RouteEditParameters {
   factory RouteEditParameters({
     int? id,
-    required final TextEditingController name,
-    required final TextEditingController description,
-    required final TextEditingController difficulty,
+    required TextEditingController name,
+    required TextEditingController description,
+    required TextEditingController difficulty,
   }) = _$RouteEditParametersConst;
 }
 
