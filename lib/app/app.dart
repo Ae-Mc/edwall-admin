@@ -1,6 +1,7 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
 import 'package:edwall_admin/app/theme/theme.dart';
+import 'package:edwall_admin/core/const.dart';
 import 'package:edwall_admin/features/auth/domain/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,7 +64,7 @@ class App extends ConsumerWidget {
           animationDuration: Duration(milliseconds: 500),
         ),
         child: MaterialApp.router(
-          title: 'EDWALL Admin',
+          title: appConfig.name,
           routerConfig: appRouter.config(),
           themeMode: ThemeMode.light,
           theme: ThemeData(
