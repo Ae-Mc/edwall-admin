@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
+import 'package:edwall_admin/core/functions/safe_padding.dart';
 import 'package:edwall_admin/core/widgets/default_app_bar.dart';
 import 'package:edwall_admin/core/widgets/error_text.dart';
 import 'package:edwall_admin/features/lessons/domain/lessons.dart';
@@ -52,12 +53,12 @@ class LessonsPage extends HookConsumerWidget {
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: Pad(left: 16),
+                  padding: safeHorizontalPadding(context, const Pad(left: 16)),
                   child: Text("Список уроков"),
                 ),
               ),
               SliverPadding(
-                padding: const Pad(all: 16),
+                padding: safeHorizontalPadding(context, const Pad(all: 16)),
                 sliver: lessons.when(
                   data: (lessons) => lessons.isEmpty
                       ? SliverToBoxAdapter(

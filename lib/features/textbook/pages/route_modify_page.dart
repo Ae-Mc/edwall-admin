@@ -4,6 +4,7 @@ import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/core/const.dart';
 import 'package:edwall_admin/core/exceptions/exception_with_message.dart';
+import 'package:edwall_admin/core/functions/safe_padding.dart';
 import 'package:edwall_admin/core/infrastructure/custom_toast.dart';
 import 'package:edwall_admin/core/providers/active_holds.dart';
 import 'package:edwall_admin/core/providers/route.dart';
@@ -103,7 +104,10 @@ class RouteModifyPage extends HookConsumerWidget {
             ),
           ),
           SliverPadding(
-            padding: Pad(top: 8, left: 32, right: 48),
+            padding: safeHorizontalPadding(
+              context,
+              const Pad(top: 8, left: 32, right: 48),
+            ),
             sliver: SliverList.list(
               children: [
                 Text(
@@ -141,7 +145,10 @@ class RouteModifyPage extends HookConsumerWidget {
                 child: ActiveWallWidget(
                   wall: wall,
                   editable: true,
-                  padding: Pad(left: 32, right: 48),
+                  padding: safeHorizontalPadding(
+                    context,
+                    const Pad(left: 32, right: 48),
+                  ),
                 ),
               ),
               Box.gap(16),
@@ -149,7 +156,10 @@ class RouteModifyPage extends HookConsumerWidget {
                 height: 64,
                 child: ListView(
                   key: PageStorageKey('buttons_list'),
-                  padding: Pad(left: 32, right: 48, bottom: 16),
+                  padding: safeHorizontalPadding(
+                    context,
+                    const Pad(left: 32, right: 48, bottom: 16),
+                  ),
                   scrollDirection: Axis.horizontal,
                   children: [
                     if (route != null) ...[

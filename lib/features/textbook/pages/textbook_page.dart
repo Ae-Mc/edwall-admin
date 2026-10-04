@@ -1,6 +1,7 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
+import 'package:edwall_admin/core/functions/safe_padding.dart';
 import 'package:edwall_admin/core/widgets/default_app_bar.dart';
 import 'package:edwall_admin/features/lesson/widgets/assignment_card.dart';
 import 'package:edwall_admin/features/programmes/domain/programmes.dart';
@@ -27,7 +28,10 @@ class TextbookPage extends HookConsumerWidget {
         slivers: [
           SliverToBoxAdapter(child: DefaultAppBar(title: Text('Учебник'))),
           SliverPadding(
-            padding: Pad(top: 8, left: 32, right: 48),
+            padding: safeHorizontalPadding(
+              context,
+              const Pad(top: 8, left: 32, right: 48),
+            ),
             sliver: SliverList.list(
               children: [
                 Text('Раздел учебника', style: theme.textTheme.labelMedium),

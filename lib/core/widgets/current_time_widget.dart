@@ -6,7 +6,12 @@ import 'package:intl/intl.dart' show DateFormat;
 
 class CurrentTimeWidget extends HookWidget {
   final TextAlign textAlign;
-  const CurrentTimeWidget({this.textAlign = TextAlign.right, super.key});
+  final double trailingPadding;
+  const CurrentTimeWidget({
+    this.textAlign = TextAlign.left,
+    this.trailingPadding = 20,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +31,12 @@ class CurrentTimeWidget extends HookWidget {
     )..layout();
 
     return SizedBox(
-      width: painter.width + 20,
+      width: painter.width + trailingPadding,
       child: Text(
         DateFormat(
           "dd ${DateFormat.MONTH} ${DateFormat.YEAR} HH:mm.ss",
         ).format(now.value),
-        textAlign: TextAlign.left,
+        textAlign: textAlign,
       ),
     );
   }

@@ -18,7 +18,7 @@ class RootPage extends ConsumerWidget {
 
     return AutoRouter(
       builder: (context, child) => Scaffold(
-        body: SafeArea(child: child),
+        body: SafeArea(left: false, right: false, child: child),
         drawer: Drawer(
           child: HookConsumer(
             builder: (context, ref, child) {

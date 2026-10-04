@@ -1,6 +1,7 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
+import 'package:edwall_admin/core/functions/safe_padding.dart';
 import 'package:edwall_admin/core/widgets/default_app_bar.dart';
 import 'package:edwall_admin/features/study_plans/domain/active_study_plan.dart';
 import 'package:edwall_admin/features/study_plans/domain/study_plans.dart';
@@ -35,7 +36,7 @@ class StudyPlansPage extends ConsumerWidget {
           SliverFillRemaining(
             child: studyPlans.when(
               data: (studyPlans) => ListView.separated(
-                padding: const Pad(all: 16),
+                padding: safeHorizontalPadding(context, const Pad(all: 16)),
                 itemCount: studyPlans.length,
                 separatorBuilder: (context, index) => Box.gap(16),
                 itemBuilder: (context, index) {
