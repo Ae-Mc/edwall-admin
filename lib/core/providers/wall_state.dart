@@ -43,11 +43,16 @@ class WallState extends _$WallState {
         ._changeState(newState);
   }
 
+  FlashboardConnection? _connectedFlashboard() {
+    if (ref.read(flashboardConnectionProvider).value == null) {
+      return null;
+    }
+    return ref.read(flashboardConnectionProvider.notifier);
+  }
+
   Future<void> setLed(int newState) async {
-    await ref
-        .read(flashboardConnectionProvider.notifier)
-        .setLed(bank, led, newState);
     _changeState(newState);
+    await _connectedFlashboard()?.setLed(bank, led, newState);
   }
 
   Future<void> showRoute(RouteRead route, int startingModule) async {
@@ -74,10 +79,6 @@ class WallState extends _$WallState {
     for (final hold in toBeCleared) {
       _changeHoldState(hold.$1, hold.$2, 0);
     }
-    final flashboardConnection = ref.read(
-      flashboardConnectionProvider.notifier,
-    );
-    await flashboardConnection.setLeds(toBeCleared, 0);
 
     final routeWithOffset = route.copyWith(
       holds: route.holds
@@ -92,17 +93,22 @@ class WallState extends _$WallState {
           )
           .toList(),
     );
-    await flashboardConnection.showRoute(routeWithOffset);
     for (final hold in routeWithOffset.holds) {
       _changeHoldState(hold.wallhold.bank, hold.wallhold.$num, hold.type);
     }
     ref.invalidateSelf();
+
+    final flashboardConnection = _connectedFlashboard();
+    if (flashboardConnection != null) {
+      await flashboardConnection.setLeds(toBeCleared, 0);
+      await flashboardConnection.showRoute(routeWithOffset);
+    }
   }
 
   Future<void> clear(WallRead wall) async {
-    await ref.read(flashboardConnectionProvider.notifier).clear();
     for (final hold in wall.holds) {
       _changeHoldState(hold.bank, hold.$num, 0);
     }
+    await _connectedFlashboard()?.clear();
   }
 }

@@ -6,21 +6,24 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'active_holds.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ActiveHolds extends _$ActiveHolds {
   @override
   Future<List<(WallHoldReadWithHold, int)>> build() async {
     final settings = await ref.watch(settingsProvider.future);
+    if (!ref.mounted) return const [];
+
     final wall = await ref.watch(wallProvider(settings.wallId).future);
-    final result = <(WallHoldReadWithHold, int)>[];
-    for (final hold in wall.holds) {
-      final color = await ref.watch(
-        wallStateProvider(hold.bank, hold.$num).future,
-      );
-      if (color != 0) {
-        result.add((hold, color));
-      }
-    }
-    return result;
+    if (!ref.mounted) return const [];
+
+    final colors = await Future.wait([
+      for (final hold in wall.holds)
+        ref.watch(wallStateProvider(hold.bank, hold.$num).future),
+    ]);
+
+    return [
+      for (final (index, hold) in wall.holds.indexed)
+        if (colors[index] != 0) (hold, colors[index]),
+    ];
   }
 }
