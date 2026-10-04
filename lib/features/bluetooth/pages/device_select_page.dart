@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:edwall_admin/core/providers/settings.dart';
 import 'package:edwall_admin/features/bluetooth/domain/available_devices.dart';
 import 'package:edwall_admin/features/bluetooth/domain/bluetooth_device.dart';
 import 'package:edwall_admin/features/bluetooth/domain/flashboard_connection.dart';
@@ -15,10 +16,34 @@ class DeviceSelectPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final devicesAsyncValue = ref.watch(availableDevicesProvider);
+    final settings = ref.watch(settingsProvider).requireValue;
     final devices = useState(<BluetoothDevice>{});
+    final autoConnectAttempts = useRef(<String>{});
     final futureState = useState<Future<void>?>(null);
     final future = useFuture(futureState.value);
     final localNextRoute = nextRoute;
+
+    final canConnect = [
+      ConnectionState.none,
+      ConnectionState.done,
+    ].contains(future.connectionState);
+
+    void connect(BluetoothDevice device) {
+      if (!canConnect) return;
+      futureState.value = ref
+          .read(flashboardConnectionProvider.notifier)
+          .connectToDevice(device);
+    }
+
+    void autoConnect({bool? enabled}) {
+      if (!(enabled ?? settings.bluetoothAutoConnect) || !canConnect) return;
+      for (final device in devices.value) {
+        if (autoConnectAttempts.value.add(device.address)) {
+          connect(device);
+          break;
+        }
+      }
+    }
 
     ref.listen(flashboardConnectionProvider, (previous, next) {
       if (next.value != null) {
@@ -31,14 +56,17 @@ class DeviceSelectPage extends HookConsumerWidget {
       }
     }, onError: (error, stackTrace) => Logger().e(error));
 
-    final discoveredDevice = devicesAsyncValue.value;
-    if (discoveredDevice != null) {
-      devices.value.add(discoveredDevice);
-    }
+    ref.listen(availableDevicesProvider, (previous, next) {
+      final discoveredDevice = next.value;
+      if (discoveredDevice == null) return;
+      devices.value = {...devices.value, discoveredDevice};
+      autoConnect();
+    });
 
     Widget devicesList() => RefreshIndicator.adaptive(
       onRefresh: () async {
         devices.value = {};
+        autoConnectAttempts.value.clear();
         ref.invalidate(availableDevicesProvider);
       },
       child: ListView.builder(
@@ -47,15 +75,7 @@ class DeviceSelectPage extends HookConsumerWidget {
           return ListTile(
             title: Text(device.name ?? "Нет имени"),
             subtitle: Text(device.address),
-            onTap:
-                [
-                  ConnectionState.none,
-                  ConnectionState.done,
-                ].contains(future.connectionState)
-                ? () => futureState.value = ref
-                      .read(flashboardConnectionProvider.notifier)
-                      .connectToDevice(device)
-                : null,
+            onTap: canConnect ? () => connect(device) : null,
           );
         },
         itemCount: devices.value.length,
@@ -63,7 +83,21 @@ class DeviceSelectPage extends HookConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Доступные устройства")),
+      appBar: AppBar(
+        title: const Text("Доступные устройства"),
+        actions: [
+          const Text("Автоподключение"),
+          Switch.adaptive(
+            value: settings.bluetoothAutoConnect,
+            onChanged: (enabled) async {
+              await ref
+                  .read(settingsProvider.notifier)
+                  .setBluetoothAutoConnect(enabled);
+              if (enabled) autoConnect(enabled: true);
+            },
+          ),
+        ],
+      ),
       floatingActionButton: localNextRoute == null
           ? null
           : OutlinedButton(

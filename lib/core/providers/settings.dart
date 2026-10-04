@@ -50,7 +50,8 @@ class Settings extends _$Settings {
     }
     newLogins.insert(0, newLogin);
     return save(
-      SettingsModel(wallId: settings?.wallId ?? 1, savedLogins: newLogins),
+      settings?.copyWith(savedLogins: newLogins) ??
+          SettingsModel(wallId: 1, savedLogins: newLogins),
     );
   }
 
@@ -59,7 +60,12 @@ class Settings extends _$Settings {
     final newLogins = List<SavedLogin>.from(settings?.savedLogins ?? []);
     newLogins.remove(login);
     return save(
-      SettingsModel(wallId: settings?.wallId ?? 1, savedLogins: newLogins),
+      settings?.copyWith(savedLogins: newLogins) ??
+          SettingsModel(wallId: 1, savedLogins: newLogins),
     );
+  }
+
+  Future<void> setBluetoothAutoConnect(bool enabled) {
+    return save(state.requireValue.copyWith(bluetoothAutoConnect: enabled));
   }
 }

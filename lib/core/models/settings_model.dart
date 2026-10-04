@@ -19,6 +19,7 @@ sealed class SavedLogin with _$SavedLogin {
 sealed class SettingsModel with _$SettingsModel {
   const factory SettingsModel({
     @Default([]) List<SavedLogin> savedLogins,
+    @Default(true) bool bluetoothAutoConnect,
     required int wallId,
   }) = SettingsModelConstructor;
 
