@@ -1,3 +1,4 @@
+import 'package:edwall_admin/core/const.dart';
 import 'package:flutter/material.dart';
 
 class LogoText extends StatelessWidget {
@@ -5,32 +6,38 @@ class LogoText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 172,
-      alignment: Alignment.center,
-      child: Text.rich(
-        TextSpan(
-          children: [
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text.rich(
             TextSpan(
-              text: "EDWALL",
-              style: TextStyle(
-                fontSize: 96,
-                fontFamily: "Oi",
-                height: 0.8,
-              ),
+              children: [
+                TextSpan(
+                  text: appConfig.logoText,
+                  style: const TextStyle(
+                    fontSize: 96,
+                    fontFamily: "Oi",
+                    height: 0.8,
+                  ),
+                ),
+                const TextSpan(
+                  text: "\nШКОЛЬНЫЙ СКАЛОДРОМ",
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontFamily: "Alumni Sans",
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
-            TextSpan(
-              text: "\nШКОЛЬНЫЙ СКАЛОДРОМ",
-              style: TextStyle(
-                fontSize: 36,
-                fontFamily: "Alumni Sans",
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          ],
+            style: TextStyle(color: Theme.of(context).primaryColor),
+            textAlign: TextAlign.center,
+          ),
         ),
-        style: TextStyle(color: Theme.of(context).primaryColor),
-        textAlign: TextAlign.center,
       ),
     );
   }

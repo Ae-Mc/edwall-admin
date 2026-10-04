@@ -1,19 +1,26 @@
 import 'package:flutter/services.dart';
 
 class AppConfig {
-  const AppConfig({required this.name, required this.hostBaseUrl});
+  const AppConfig({
+    required this.name,
+    required this.logoText,
+    required this.hostBaseUrl,
+  });
 
   final String name;
+  final String logoText;
   final String hostBaseUrl;
 }
 
 const appConfigs = {
   'edwall': AppConfig(
     name: 'Edwall Admin',
+    logoText: 'EDWALL',
     hostBaseUrl: 'https://edwall.ae-mc.ru',
   ),
   'rustaveli': AppConfig(
     name: 'Rustaveli Admin',
+    logoText: 'RUSTAVELI',
     hostBaseUrl: 'https://rustaveli.ae-mc.ru',
   ),
 };
