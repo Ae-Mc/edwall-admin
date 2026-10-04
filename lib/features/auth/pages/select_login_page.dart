@@ -1,6 +1,7 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
+import 'package:edwall_admin/core/functions/safe_padding.dart';
 import 'package:edwall_admin/core/models/settings_model.dart';
 import 'package:edwall_admin/core/providers/settings.dart';
 import 'package:edwall_admin/core/widgets/card_inner_inkwell.dart';
@@ -26,6 +27,8 @@ class SelectLoginPage extends HookWidget {
 
     return Scaffold(
       body: SafeArea(
+        left: false,
+        right: false,
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
@@ -36,7 +39,13 @@ class SelectLoginPage extends HookWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      LogoText(),
+                      Padding(
+                        padding: safeHorizontalPadding(
+                          context,
+                          const Pad(horizontal: 16),
+                        ),
+                        child: LogoText(),
+                      ),
                       SizedBox(height: 32),
                       Container(
                         alignment: Alignment.center,
@@ -58,7 +67,10 @@ class SelectLoginPage extends HookWidget {
 
                             return ListView.separated(
                               scrollDirection: Axis.horizontal,
-                              padding: Pad(horizontal: 32),
+                              padding: safeHorizontalPadding(
+                                context,
+                                const Pad(horizontal: 32),
+                              ),
                               shrinkWrap: true,
                               itemCount: settings.savedLogins.length + 1,
                               itemBuilder: (context, index) {

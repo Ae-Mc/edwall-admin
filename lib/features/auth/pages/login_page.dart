@@ -1,6 +1,7 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:edwall_admin/app/router/app_router.dart';
+import 'package:edwall_admin/core/functions/safe_padding.dart';
 import 'package:edwall_admin/features/auth/domain/auth_repository.dart';
 import 'package:edwall_admin/features/auth/widgets/logo_text.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,14 @@ class LoginPage extends HookConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
+        left: false,
+        right: false,
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
               child: Padding(
-                padding: const Pad(all: 16),
+                padding: safeHorizontalPadding(context, const Pad(all: 16)),
                 child: Center(
                   child: Column(
                     children: [

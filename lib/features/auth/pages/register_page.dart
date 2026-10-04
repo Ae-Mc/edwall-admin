@@ -1,5 +1,6 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:edwall_admin/core/functions/safe_padding.dart';
 import 'package:edwall_admin/core/infrastructure/custom_toast.dart';
 import 'package:edwall_admin/core/widgets/future_outlined_button.dart';
 import 'package:edwall_admin/features/auth/domain/auth_repository.dart';
@@ -23,12 +24,14 @@ class RegisterPage extends HookConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
+        left: false,
+        right: false,
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
               child: Padding(
-                padding: const Pad(all: 16),
+                padding: safeHorizontalPadding(context, const Pad(all: 16)),
                 child: Center(
                   child: Column(
                     children: [

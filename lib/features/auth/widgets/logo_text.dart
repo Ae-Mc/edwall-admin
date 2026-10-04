@@ -9,34 +9,31 @@ class LogoText extends StatelessWidget {
     return SizedBox(
       height: 172,
       width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: appConfig.logoText,
-                  style: const TextStyle(
-                    fontSize: 96,
-                    fontFamily: "Oi",
-                    height: 0.8,
-                  ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: appConfig.logoText,
+                style: const TextStyle(
+                  fontSize: 96,
+                  fontFamily: "Oi",
+                  height: 0.8,
                 ),
-                const TextSpan(
-                  text: "\nШКОЛЬНЫЙ СКАЛОДРОМ",
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontFamily: "Alumni Sans",
-                    fontWeight: FontWeight.w400,
-                  ),
+              ),
+              const TextSpan(
+                text: "\nШКОЛЬНЫЙ СКАЛОДРОМ",
+                style: TextStyle(
+                  fontSize: 36,
+                  fontFamily: "Alumni Sans",
+                  fontWeight: FontWeight.w400,
                 ),
-              ],
-            ),
-            style: TextStyle(color: Theme.of(context).primaryColor),
-            textAlign: TextAlign.center,
+              ),
+            ],
           ),
+          style: TextStyle(color: Theme.of(context).primaryColor),
+          textAlign: TextAlign.center,
         ),
       ),
     );
