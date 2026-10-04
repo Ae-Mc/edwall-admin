@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 
 class DefaultAppBar extends StatelessWidget {
   final Widget title;
+  final List<Widget> actions;
 
-  const DefaultAppBar({super.key, required this.title});
+  const DefaultAppBar({
+    super.key,
+    required this.title,
+    this.actions = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +28,8 @@ class DefaultAppBar extends StatelessWidget {
               child: title,
             ),
           ),
+          ...actions,
+          if (actions.isNotEmpty) Box.gap(8),
           CurrentTimeWidget(),
         ],
       ),

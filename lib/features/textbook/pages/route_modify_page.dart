@@ -10,6 +10,7 @@ import 'package:edwall_admin/core/providers/route.dart';
 import 'package:edwall_admin/core/providers/settings.dart';
 import 'package:edwall_admin/core/providers/wall.dart';
 import 'package:edwall_admin/core/providers/wall_state.dart';
+import 'package:edwall_admin/core/widgets/bluetooth_button.dart';
 import 'package:edwall_admin/core/widgets/default_app_bar.dart';
 import 'package:edwall_admin/features/groups/widgets/color_select_button.dart';
 import 'package:edwall_admin/features/groups/widgets/error_column.dart';
@@ -96,7 +97,10 @@ class RouteModifyPage extends HookConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: DefaultAppBar(title: Text('Раздел: ${programme.name}')),
+            child: DefaultAppBar(
+              title: Text('Раздел: ${programme.name}'),
+              actions: [BluetoothButton()],
+            ),
           ),
           SliverPadding(
             padding: Pad(top: 8, left: 32, right: 48),
