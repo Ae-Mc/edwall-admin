@@ -17,6 +17,15 @@ final routesParentProvider = Provider<int>((Ref ref) => _++);
 
 @riverpod
 class Routes extends _$Routes {
+  Future<T> _runMutation<T>(Future<T> Function() operation) async {
+    final keepAlive = ref.keepAlive();
+    try {
+      return await operation();
+    } finally {
+      keepAlive.close();
+    }
+  }
+
   @override
   Future<List<Route>> build({
     String? nameContains,
@@ -36,26 +45,26 @@ class Routes extends _$Routes {
     );
   }
 
-  Future<void> delete(int id) async {
-    final apiClient = await ref.watch(apiClientProvider.future);
+  Future<void> delete(int id) => _runMutation(() async {
+    final apiClient = await ref.read(apiClientProvider.future);
     (await clientExceptionHandler(
       apiClient.apiV1RoutesRouteIdDelete(routeId: id),
     )).raiseForStatusCode();
-    ref.invalidate(routesParentProvider);
     ref.invalidate(routeProvider(id));
     ref.invalidate(programmesParentProvider);
     final params = ref.read(currentRouteEditParametersProvider);
     if (params.id == id) {
       ref.read(currentRouteEditParametersProvider.notifier).setRouteId(null);
     }
-  }
+    ref.invalidate(routesParentProvider);
+  });
 
   Future<void> modify(
     int id,
     RouteUpdate route, [
     List<(int, int)>? newHolds,
-  ]) async {
-    final apiClient = await ref.watch(apiClientProvider.future);
+  ]) => _runMutation(() async {
+    final apiClient = await ref.read(apiClientProvider.future);
     (await clientExceptionHandler(
       (newHolds == null)
           ? apiClient.apiV1RoutesRouteIdPatch(routeId: id, body: route)
@@ -67,25 +76,26 @@ class Routes extends _$Routes {
               ),
             ),
     )).raiseForStatusCode();
-    ref.invalidate(routesParentProvider);
     ref.invalidate(routeProvider(id));
-  }
-
-  Future<RouteRead> add(RouteBase route, [List<(int, int)>? holds]) async {
-    final apiClient = await ref.watch(apiClientProvider.future);
-    Logger().d(holds);
-    final response = await clientExceptionHandler(
-      holds == null
-          ? apiClient.apiV1RoutesPost(body: route)
-          : apiClient.apiV1RoutesFullPost(
-              body: BodyAddRouteFullApiV1RoutesFullPost(
-                route: route,
-                wallHolds: holds.map((e) => [e.$1, e.$2]).toList(),
-              ),
-            ),
-    );
-    response.raiseForStatusCode();
     ref.invalidate(routesParentProvider);
-    return forceGetBody(response);
-  }
+  });
+
+  Future<RouteRead> add(RouteBase route, [List<(int, int)>? holds]) =>
+      _runMutation(() async {
+        final apiClient = await ref.read(apiClientProvider.future);
+        Logger().d(holds);
+        final response = await clientExceptionHandler(
+          holds == null
+              ? apiClient.apiV1RoutesPost(body: route)
+              : apiClient.apiV1RoutesFullPost(
+                  body: BodyAddRouteFullApiV1RoutesFullPost(
+                    route: route,
+                    wallHolds: holds.map((e) => [e.$1, e.$2]).toList(),
+                  ),
+                ),
+        );
+        response.raiseForStatusCode();
+        ref.invalidate(routesParentProvider);
+        return forceGetBody(response);
+      });
 }
