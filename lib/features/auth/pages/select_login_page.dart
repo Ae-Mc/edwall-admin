@@ -97,6 +97,11 @@ class SelectLoginPage extends HookWidget {
                                           settings.savedLogins[index];
                                     }
                                   },
+                                  onDoubleTap: () async {
+                                    final login = settings.savedLogins[index];
+                                    selectedLogin.value = login;
+                                    await continueWithLogin(ref, login);
+                                  },
                                 );
                               },
                               separatorBuilder: (context, index) => Box.gap(8),

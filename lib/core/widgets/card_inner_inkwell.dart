@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class CardInnerInkwell extends StatelessWidget {
   final void Function()? onTap;
+  final void Function()? onDoubleTap;
   final Widget child;
 
   const CardInnerInkwell({
     super.key,
     this.onTap,
+    this.onDoubleTap,
     required this.child,
   });
 
@@ -20,6 +22,7 @@ class CardInnerInkwell extends StatelessWidget {
     return InkWell(
       borderRadius: radius,
       onTap: onTap,
+      onDoubleTap: onDoubleTap,
       child: child,
     );
   }

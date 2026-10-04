@@ -11,12 +11,14 @@ class LoginCard extends StatelessWidget {
   final SavedLogin login;
   final bool isSelected;
   final void Function() onTap;
+  final void Function() onDoubleTap;
 
   const LoginCard({
     super.key,
     required this.login,
     required this.isSelected,
     required this.onTap,
+    required this.onDoubleTap,
   });
 
   @override
@@ -30,6 +32,7 @@ class LoginCard extends StatelessWidget {
         color: isSelected ? theme.colorScheme.primary : null,
         child: CardInnerInkwell(
           onTap: onTap,
+          onDoubleTap: onDoubleTap,
           child: Stack(
             children: [
               Column(
